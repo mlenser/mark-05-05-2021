@@ -4,6 +4,8 @@ import loadable from '@loadable/component';
 import PageWrapper from './PageWrapper';
 
 const AppWrapper = styled.div`
+  background-color: ${({ theme }) => theme.palette.background};
+  color: ${({ theme }) => theme.palette.textColor};
   display: flex;
   flex-direction: column;
   min-height: 100%;

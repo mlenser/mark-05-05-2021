@@ -18,7 +18,7 @@ const Column = styled.div`
 `;
 
 const TooltipIndicator = styled.span`
-  border-bottom: 1px dotted black;
+  border-bottom: 1px dotted ${({ theme }) => theme.palette.textColor};
 `;
 
 const getTitleAndText = ({

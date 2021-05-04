@@ -32,6 +32,7 @@ const theme = {
     /* eslint-enable sort-keys-fix/sort-keys-fix */
   },
   palette: {
+    background: 'rgb(27 42 49)',
     blue: {
       ...blue,
       main: blue[500],
@@ -44,6 +45,7 @@ const theme = {
       ...blue,
       main: blue[500],
     },
+    textColor: 'rgb(255, 255, 255, 0.87)',
   },
   sizes: {
     /* eslint-disable sort-keys-fix/sort-keys-fix */
