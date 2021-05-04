@@ -1,3 +1,5 @@
+import { roundToNearest } from './roundToNearest';
+
 export const groupByInterval = ({
   groupInterval,
   values,
@@ -9,6 +11,8 @@ export const groupByInterval = ({
     // Data comes from the backend in this interval
     return values;
   }
-  // TODO: group
-  return values;
+  return values.map(([price, size]) => [
+    roundToNearest({ interval: groupInterval, value: price }),
+    size,
+  ]);
 };
