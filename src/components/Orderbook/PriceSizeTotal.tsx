@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 import { formatNumber } from '../../utils/formatNumber';
 import { formatPrice } from '../../utils/formatPrice';
 
-type Ord = string;
+type Field = string;
 type Type = string;
 
 const Wrapper = styled.div`
@@ -20,10 +20,10 @@ const BidsPriceStyle = css`
   color: rgb(36 172 124);
 `;
 
-const Column = styled.div<{ ord?: string; type?: string }>`
+const Column = styled.div<{ field?: string; type?: string }>`
   text-align: right;
-  ${({ ord, type }) =>
-    ord === 'price' && (type === 'asks' ? AsksPriceStyle : BidsPriceStyle)};
+  ${({ field, type }) =>
+    field === 'price' && (type === 'asks' ? AsksPriceStyle : BidsPriceStyle)};
 `;
 
 const TooltipIndicator = styled.span`
@@ -31,16 +31,16 @@ const TooltipIndicator = styled.span`
 `;
 
 const getTitleAndText = ({
-  ord,
+  field,
   type,
 }: {
-  ord: Ord;
+  field: Field;
   type: Type;
 }): {
   text: string;
   title: string;
 } => {
-  if (ord === 'price') {
+  if (field === 'price') {
     if (type === 'bids') {
       return {
         text: 'Price',
@@ -56,13 +56,13 @@ const getTitleAndText = ({
       };
     }
   }
-  if (ord === 'size') {
+  if (field === 'size') {
     return {
       text: 'Size',
       title: 'The number of contracts available at this price level.',
     };
   }
-  if (ord === 'total') {
+  if (field === 'total') {
     return {
       text: 'Total',
       title: 'Cumulative number of contracts at this price level.',
@@ -75,13 +75,13 @@ const getTitleAndText = ({
 };
 
 const getHeading = ({
-  ord,
+  field,
   type,
 }: {
-  ord: Ord;
+  field: Field;
   type: Type;
 }): React.ReactNode => {
-  const { text, title } = getTitleAndText({ ord, type });
+  const { text, title } = getTitleAndText({ field, type });
   return (
     <Tooltip title={title}>
       <TooltipIndicator>{text}</TooltipIndicator>
@@ -89,15 +89,15 @@ const getHeading = ({
   );
 };
 
-const getColumn = ({ ord, values }: { ord: Ord; values: SizePrice }) => {
+const getColumn = ({ field, values }: { field: Field; values: SizePrice }) => {
   const [price, size, total] = values;
-  if (ord === 'price') {
+  if (field === 'price') {
     return formatPrice(price);
   }
-  if (ord === 'size') {
+  if (field === 'size') {
     return formatNumber(size);
   }
-  if (ord === 'total') {
+  if (field === 'total') {
     return formatNumber(total);
   }
 };
@@ -116,19 +116,19 @@ const PriceSizeTotal: React.FC<Props> = ({
   return (
     <>
       <Wrapper>
-        {order.map((ord) => (
-          <Column key={`column-${ord}`}>{getHeading({ ord, type })}</Column>
+        {order.map((field) => (
+          <Column key={`column-${field}`}>{getHeading({ field, type })}</Column>
         ))}
       </Wrapper>
       {values.map(([price, size, total]) => (
         <Wrapper key={`${price}-${size}-${total}`}>
-          {order.map((ord) => (
+          {order.map((field) => (
             <Column
-              key={`${price}-${size}-${total}-${ord}`}
-              ord={ord}
+              key={`${price}-${size}-${total}-${field}`}
+              field={field}
               type={type}
             >
-              {getColumn({ ord, values: [price, size, total] })}
+              {getColumn({ field, values: [price, size, total] })}
             </Column>
           ))}
         </Wrapper>
