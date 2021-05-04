@@ -1,4 +1,5 @@
 import { groupByInterval } from './groupByInterval';
+
 const values = [
   [17, 2],
   [21.5, 3],

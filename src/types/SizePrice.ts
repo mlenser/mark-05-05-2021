@@ -1,1 +1,1 @@
-type SizePrice = number[];
+export type SizePrice = number[];

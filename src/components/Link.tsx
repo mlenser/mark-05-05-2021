@@ -5,8 +5,7 @@ import { Link as GatsbyLink } from 'gatsby';
 const LinkBase = css`
   color: ${({ theme }) => theme.palette.primary[500]};
   cursor: pointer;
-  text-decoration-color: ${({ theme }) =>
-    theme.palette.primary['500transparent']};
+  text-decoration-color: ${({ theme }) => theme.palette.primary['500']};
 
   :hover {
     color: ${({ theme }) => theme.palette.primary.A400};

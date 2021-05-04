@@ -1,3 +1,5 @@
+import { SizePrice } from '../types/SizePrice';
+
 export const addRunningTotal = (values: SizePrice[]) =>
   values.reduce((accumulator: SizePrice[], currentValue: SizePrice) => {
     const currentSize = currentValue[1];

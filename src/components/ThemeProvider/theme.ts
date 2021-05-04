@@ -16,8 +16,6 @@ const breakpoints = {
 };
 
 const createBreakpoint = (width: number): string => `(min-width: ${width}px)`;
-const createMaxBreakpoint = (width: number): string =>
-  `(max-width: ${width}px)`;
 
 const theme: DefaultTheme = {
   device: {
@@ -49,6 +47,7 @@ const theme: DefaultTheme = {
     textColor: 'rgb(255, 255, 255, 0.87)',
   },
   sizes: {
+    /* eslint-disable sort-keys-fix/sort-keys-fix */
     xxxsmall: '0.25rem', // 4px
     xxsmall: '0.5rem', // 8px
     xsmall: '0.625rem', // 10px
@@ -61,8 +60,10 @@ const theme: DefaultTheme = {
     xxxxlarge: '3rem', // 48px
     xxxxxlarge: '4rem', // 64px
     xxxxxxlarge: '5rem', // 80px
+    /* eslint-enable sort-keys-fix/sort-keys-fix */
   },
   widths: {
+    /* eslint-disable sort-keys-fix/sort-keys-fix */
     xxxxxxxsmall: '5rem', // 80px
     xxxxxxsmall: '7.5rem', // 120px
     xxxxxsmall: '10rem', // 160px
@@ -76,6 +77,7 @@ const theme: DefaultTheme = {
     xlarge: '50rem', // 800px
     xxlarge: '55rem', // 880px
     xxxlarge: '60rem', // 960px
+    /* eslint-enable sort-keys-fix/sort-keys-fix */
   },
 };
 

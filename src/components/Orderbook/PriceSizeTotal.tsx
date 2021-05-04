@@ -1,11 +1,12 @@
 import Tooltip from '@material-ui/core/Tooltip';
 import React from 'react';
 import styled, { css } from 'styled-components';
+import TooltipIndicator from '../TooltipIndicator';
 import { formatNumber } from '../../utils/formatNumber';
 import { formatPrice } from '../../utils/formatPrice';
-import TooltipIndicator from '../TooltipIndicator';
-import { useOrderbookContext } from './OrderbookContext';
+import { SizePrice } from '../../types/SizePrice';
 import { getPercentage } from '../../utils/getPercentage';
+import { useOrderbookContext } from './OrderbookContext';
 
 type Field = string;
 type Order = string[];

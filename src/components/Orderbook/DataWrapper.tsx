@@ -10,10 +10,10 @@ const Orderbook: React.FC = () => {
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
     socketUrl,
     {
-      // will attempt to reconnect on all close events, such as server shutting down
-      shouldReconnect: () => true,
       reconnectAttempts: 10,
       reconnectInterval: 3000,
+      // will attempt to reconnect on all close events, such as server shutting down
+      shouldReconnect: () => true,
     },
   );
 
@@ -40,9 +40,9 @@ const Orderbook: React.FC = () => {
     <div>
       <div>Status: {connectionStatus[readyState]}.</div>
       <ul>
-        {messageHistory.current?.map((message, idx) => {
-          return <li key={idx}>{JSON.stringify(message)}</li>;
-        })}
+        {messageHistory.current?.map((message) => (
+          <li key={JSON.stringify(message)}>{JSON.stringify(message)}</li>
+        ))}
       </ul>
     </div>
   );

@@ -1,3 +1,4 @@
+import { SizePrice } from '../types/SizePrice';
 import { roundToNearest } from './roundToNearest';
 
 export const groupByInterval = ({
