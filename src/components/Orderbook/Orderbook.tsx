@@ -1,61 +1,48 @@
-import React, { useState, useCallback, useMemo, useRef } from 'react';
-import useWebSocket, { ReadyState } from 'react-use-websocket';
-import { Button } from '@material-ui/core';
+import React, { useEffect, useMemo, useRef } from 'react';
+import useWebSocket from 'react-use-websocket';
+import { connectionStatus } from '../../constants/websocket-states';
+
+const socketUrl = 'wss://www.cryptofacilities.com/ws/v1';
 
 const Orderbook: React.FC = () => {
-  const [socketUrl, setSocketUrl] = useState('wss://echo.websocket.org');
   const messageHistory = useRef([]);
 
-  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
-
-  messageHistory.current = useMemo(() => {
-    if (lastMessage) {
-      // TODO fix type issue from dependency
-      return messageHistory.current.concat(lastMessage);
-    }
-    return [];
-  }, [lastMessage]);
-
-  const handleClickChangeSocketUrl = useCallback(
-    () => setSocketUrl('wss://demos.kaazing.com/echo'),
-    [],
+  const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
+    socketUrl,
+    {
+      // will attempt to reconnect on all close events, such as server shutting down
+      shouldReconnect: () => true,
+      reconnectAttempts: 10,
+      reconnectInterval: 3000,
+    },
   );
 
-  const handleClickSendMessage = useCallback(() => sendMessage('Hello'), []);
+  messageHistory.current = useMemo(() => {
+    if (lastJsonMessage) {
+      return messageHistory.current.concat(lastJsonMessage);
+    }
+    return [];
+  }, [lastJsonMessage]);
 
-  const connectionStatus = {
-    [ReadyState.CONNECTING]: 'Connecting',
-    [ReadyState.OPEN]: 'Open',
-    [ReadyState.CLOSING]: 'Closing',
-    [ReadyState.CLOSED]: 'Closed',
-    [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-  }[readyState];
+  useEffect(() => {
+    sendJsonMessage({
+      event: 'subscribe',
+      feed: 'book_ui_1',
+      product_ids: ['PI_XBTUSD'],
+    });
+  }, []);
 
   console.log('messageHistory.current', messageHistory.current);
 
   return (
     <div>
-      <Button
-        color="secondary"
-        variant="contained"
-        onClick={handleClickChangeSocketUrl}
-      >
-        Change Socket Url
-      </Button>
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={handleClickSendMessage}
-        disabled={readyState !== ReadyState.OPEN}
-      >
-        Send 'Hello'
-      </Button>
-      <div>The WebSocket is currently {connectionStatus}.</div>
-      {lastMessage ? <div>Last message: {lastMessage.data}</div> : null}
+      <div>Status: {connectionStatus[readyState]}.</div>
+      {lastJsonMessage ? (
+        <div>Last message: {JSON.stringify(lastJsonMessage)}</div>
+      ) : null}
       <ul>
         {messageHistory.current?.map((message, idx) => {
-          // TODO fix type issue from dependency
-          return <li key={idx}>{message.data}</li>;
+          return <li key={idx}>{JSON.stringify(message)}</li>;
         })}
       </ul>
     </div>
