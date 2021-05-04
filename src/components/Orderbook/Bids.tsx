@@ -5,7 +5,11 @@ import { addRunningTotal } from '../../utils/addRunningTotal';
 import PriceSizeTotal from './PriceSizeTotal';
 import { useOrderbookContext } from './OrderbookContext';
 
-const Bids: React.FC = () => {
+type Props = {
+  aboveMobile: boolean;
+};
+
+const Bids: React.FC<Props> = ({ aboveMobile }) => {
   const { bidsValues, groupInterval } = useOrderbookContext();
   const sortedValues = bidsValues.sort(sortByPriceHighFirst);
   const groupedValues = groupByInterval({
@@ -13,12 +17,13 @@ const Bids: React.FC = () => {
     values: sortedValues,
   });
   const valuesWithTotal = addRunningTotal(groupedValues);
+
   return (
     <div>
       <PriceSizeTotal
-        order={['total', 'size', 'price']}
+        order={aboveMobile ? ['total', 'size', 'price'] : undefined}
         type="bids"
-        values={valuesWithTotal}
+        values={aboveMobile ? valuesWithTotal : valuesWithTotal.reverse()}
       />
     </div>
   );

@@ -8,6 +8,7 @@ import { useOrderbookContext } from './OrderbookContext';
 import { getPercentage } from '../../utils/getPercentage';
 
 type Field = string;
+type Order = string[];
 type Type = string;
 
 const getDirectionFromType = (type: Type) => {
@@ -29,11 +30,24 @@ const getColorFromType = (type: Type) => {
 };
 
 const Wrapper = styled.div<{ filled?: string; type: string }>`
+  @media ${({ theme }) => theme.device.tablet} {
+    ${({ filled, type }) =>
+      filled &&
+      css`
+        background: linear-gradient(
+          ${getDirectionFromType(type)},
+          ${getColorFromType(type)} 0%,
+          ${getColorFromType(type)} ${filled},
+          transparent ${filled},
+          transparent 100%
+        );
+      `};
+  }
   ${({ filled, type }) =>
     filled &&
     css`
       background: linear-gradient(
-        ${getDirectionFromType(type)},
+        to right,
         ${getColorFromType(type)} 0%,
         ${getColorFromType(type)} ${filled},
         transparent ${filled},
@@ -131,25 +145,38 @@ const getColumn = ({ field, values }: { field: Field; values: SizePrice }) => {
   }
 };
 
+type ColumnHeadersProps = {
+  order: Order;
+  type: Type;
+};
+
+const ColumnHeaders: React.FC<ColumnHeadersProps> = ({ order, type }) => (
+  <Wrapper type={type}>
+    {order.map((field) => (
+      <Column key={`column-${field}`}>{getHeading({ field, type })}</Column>
+    ))}
+  </Wrapper>
+);
+
 type Props = {
-  order?: string[];
+  order?: Order;
+  showColumnHeadersBelow?: boolean;
   values: SizePrice[];
-  type: string;
+  type: Type;
 };
 
 const PriceSizeTotal: React.FC<Props> = ({
   order = ['price', 'size', 'total'],
+  showColumnHeadersBelow,
   type,
   values,
 }) => {
   const { largestSum } = useOrderbookContext();
   return (
     <>
-      <Wrapper type={type}>
-        {order.map((field) => (
-          <Column key={`column-${field}`}>{getHeading({ field, type })}</Column>
-        ))}
-      </Wrapper>
+      {!showColumnHeadersBelow ? (
+        <ColumnHeaders order={order} type={type} />
+      ) : null}
       {values.map(([price, size, total]) => (
         <Wrapper
           key={`${price}-${size}-${total}`}
@@ -167,6 +194,9 @@ const PriceSizeTotal: React.FC<Props> = ({
           ))}
         </Wrapper>
       ))}
+      {showColumnHeadersBelow ? (
+        <ColumnHeaders order={order} type={type} />
+      ) : null}
     </>
   );
 };

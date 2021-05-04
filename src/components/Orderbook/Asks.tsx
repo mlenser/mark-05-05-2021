@@ -5,7 +5,11 @@ import { groupByInterval } from '../../utils/groupByInterval';
 import PriceSizeTotal from './PriceSizeTotal';
 import { useOrderbookContext } from './OrderbookContext';
 
-const Asks: React.FC = () => {
+type Props = {
+  aboveMobile: boolean;
+};
+
+const Asks: React.FC<Props> = ({ aboveMobile }) => {
   const { asksValues, groupInterval } = useOrderbookContext();
   const sortedValues = asksValues.sort(sortByPriceLowFirst);
   const groupedValues = groupByInterval({
@@ -13,9 +17,14 @@ const Asks: React.FC = () => {
     values: sortedValues,
   });
   const valuesWithTotal = addRunningTotal(groupedValues);
+
   return (
     <div>
-      <PriceSizeTotal type="asks" values={valuesWithTotal} />
+      <PriceSizeTotal
+        showColumnHeadersBelow={!aboveMobile}
+        type="asks"
+        values={valuesWithTotal}
+      />
     </div>
   );
 };
