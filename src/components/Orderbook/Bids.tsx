@@ -12,7 +12,11 @@ const Bids: React.FC<Props> = ({ values }) => {
   const valuesWithTotal = sortedValues.reduce(addRunningTotal, []);
   return (
     <div>
-      <PriceSizeTotal values={valuesWithTotal} />
+      <PriceSizeTotal
+        order={['total', 'size', 'price']}
+        type="bids"
+        values={valuesWithTotal}
+      />
     </div>
   );
 };

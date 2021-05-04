@@ -12,7 +12,7 @@ const Asks: React.FC<Props> = ({ values }) => {
   const valuesWithTotal = sortedValues.reduce(addRunningTotal, []);
   return (
     <div>
-      <PriceSizeTotal values={valuesWithTotal} />
+      <PriceSizeTotal type="asks" values={valuesWithTotal} />
     </div>
   );
 };
