@@ -3,14 +3,11 @@ import { sortByPriceHighFirst } from '../../utils/sort/sortByPrice';
 import { groupByInterval } from '../../utils/groupByInterval';
 import { addRunningTotal } from '../../utils/addRunningTotal';
 import PriceSizeTotal from './PriceSizeTotal';
+import { useOrderbookContext } from './OrderbookContext';
 
-type Props = {
-  groupInterval: number;
-  values: SizePrice[];
-};
-
-const Bids: React.FC<Props> = ({ groupInterval, values }) => {
-  const sortedValues = values.sort(sortByPriceHighFirst);
+const Bids: React.FC = () => {
+  const { bidsValues, groupInterval } = useOrderbookContext();
+  const sortedValues = bidsValues.sort(sortByPriceHighFirst);
   const groupedValues = groupByInterval({
     groupInterval,
     values: sortedValues,

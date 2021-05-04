@@ -4,6 +4,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import TooltipIndicator from '../TooltipIndicator';
 import { formatNumber } from '../../utils/formatNumber';
+import { useOrderbookContext } from './OrderbookContext';
 
 const Wrapper = styled.div`
   align-items: center;
@@ -18,12 +19,9 @@ const Group = styled.div`
 
 const groupIntervals = [0.5, 1, 2.5, 5, 10, 25, 50, 100, 250, 500, 1000, 2500];
 
-type Props = {
-  groupInterval: number;
-  setGroup: (value: number) => void;
-};
+const GroupAdjuster: React.FC = () => {
+  const { groupInterval, setGroup } = useOrderbookContext();
 
-const GroupAdjuster: React.FC<Props> = ({ groupInterval, setGroup }) => {
   const decrementGroup = () => {
     const currentIndex = groupIntervals.indexOf(groupInterval);
     const newIndex = currentIndex - 1;
