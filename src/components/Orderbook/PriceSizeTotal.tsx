@@ -1,6 +1,6 @@
 import Tooltip from '@material-ui/core/Tooltip';
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { formatNumber } from '../../utils/formatNumber';
 import { formatPrice } from '../../utils/formatPrice';
 
@@ -13,8 +13,17 @@ const Wrapper = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
 `;
 
-const Column = styled.div`
+const AsksPriceStyle = css`
+  color: rgb(241 79 76);
+`;
+const BidsPriceStyle = css`
+  color: rgb(36 172 124);
+`;
+
+const Column = styled.div<{ ord?: string; type?: string }>`
   text-align: right;
+  ${({ ord, type }) =>
+    ord === 'price' && (type === 'asks' ? AsksPriceStyle : BidsPriceStyle)};
 `;
 
 const TooltipIndicator = styled.span`
@@ -114,7 +123,11 @@ const PriceSizeTotal: React.FC<Props> = ({
       {values.map(([price, size, total]) => (
         <Wrapper key={`${price}-${size}-${total}`}>
           {order.map((ord) => (
-            <Column key={`${price}-${size}-${total}-${ord}`}>
+            <Column
+              key={`${price}-${size}-${total}-${ord}`}
+              ord={ord}
+              type={type}
+            >
               {getColumn({ ord, values: [price, size, total] })}
             </Column>
           ))}
