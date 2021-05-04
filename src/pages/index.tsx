@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import Layout from '../components/Layout';
 import SEO from '../components/SEO';
-import H1 from '../components/Headings/H1';
+import H1 from '../components/headings/H1';
 
 type Props = {
   data: {
