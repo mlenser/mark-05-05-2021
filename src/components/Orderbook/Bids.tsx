@@ -9,7 +9,7 @@ type Props = {
 
 const Bids: React.FC<Props> = ({ values }) => {
   const sortedValues = values.sort(sortByPriceHighFirst);
-  const valuesWithTotal = sortedValues.reduce(addRunningTotal, []);
+  const valuesWithTotal = addRunningTotal(sortedValues);
   return (
     <div>
       <PriceSizeTotal

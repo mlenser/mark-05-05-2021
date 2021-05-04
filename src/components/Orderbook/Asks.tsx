@@ -9,7 +9,7 @@ type Props = {
 
 const Asks: React.FC<Props> = ({ values }) => {
   const sortedValues = values.sort(sortByPriceLowFirst);
-  const valuesWithTotal = sortedValues.reduce(addRunningTotal, []);
+  const valuesWithTotal = addRunningTotal(sortedValues);
   return (
     <div>
       <PriceSizeTotal type="asks" values={valuesWithTotal} />
