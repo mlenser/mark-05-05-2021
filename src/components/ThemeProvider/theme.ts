@@ -61,6 +61,7 @@ const theme = {
     xlarge: '2.5rem', // 40px
     xxlarge: '4rem', // 64px
     xxxlarge: '5rem', // 80px
+    xxxxlarge: '6rem', // 96px
     /* eslint-enable sort-keys-fix/sort-keys-fix */
   },
   widths: {

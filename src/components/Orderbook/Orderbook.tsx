@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Bids from './Bids';
 import Asks from './Asks';
+import GroupAdjuster from './GroupAdjuster';
 
 const data = [
   {
@@ -207,11 +208,16 @@ const Wrapper = styled.div`
 `;
 
 const Orderbook: React.FC = () => {
+  const [group, setGroup] = useState(0.5);
+
   return (
-    <Wrapper>
-      <Bids values={data[0].bids} />
-      <Asks values={data[0].asks} />
-    </Wrapper>
+    <div>
+      <GroupAdjuster group={group} setGroup={setGroup} />
+      <Wrapper>
+        <Bids values={data[0].bids} />
+        <Asks values={data[0].asks} />
+      </Wrapper>
+    </div>
   );
 };
 
