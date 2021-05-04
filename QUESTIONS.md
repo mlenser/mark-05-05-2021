@@ -9,7 +9,17 @@
 
 ## 2. What would you have done differently if you knew this page was going to get thousands of views per second vs per week?
 
-## 3. What was the most useful feature that was added to the latest version of your chosen language?Please include a snippet of code that shows how you've used it.
+I would spend some time running some performance testing on my code that parses the data from the websockets. It likely wouldn't be too impactful, but if it runs thousands of times a second then it could have a performance impact.
+
+Beyond that, the site is static so once it is built the only data transferring is from the file server (CDN hopefully) to the client. That is very minimal. We should put it on a quality CDN like Fastly, Netlify, AWS, or other options like Azure.
+
+With a CDN we can do edge-caching. If we don't have edge-caching then we can add some cache logic to our server heavily favor cache.
+
+Most of the data is client based via websockets and that hits the backend. So the backend should potentially add some limits when they start having load issues. Perhaps they could limit the update time once they detect memory is at 70% for example.
+
+If we have issues with bots we could add other services in front like cloudflare.
+
+## 3. What was the most useful feature that was added to the latest version of your chosen language? Please include a snippet of code that shows how you've used it.
 
 ## 4. How would you track down a performance issue in production? Have you ever had to do this?
 
