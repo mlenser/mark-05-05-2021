@@ -1,5 +1,6 @@
 {
   "extends": "./tsconfig.build.json",
   "exclude": ["node_modules", "build"],
-  "include": ["src/**/*.ts", "src/**/*.tsx", "*.ts", "*.js"]
+  "files": [".eslintrc.js"],
+  "include": ["src/**/*.js", "src/**/*.ts", "src/**/*.tsx", "*.ts", "*.js"]
 }
