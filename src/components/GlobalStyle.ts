@@ -7,8 +7,6 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
   }
   body {
-		background-color: ${({ theme }) => theme.palette.background};
-		color: ${({ theme }) => theme.palette.textColor};
     margin: 0;
   }
 

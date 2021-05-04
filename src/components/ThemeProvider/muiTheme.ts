@@ -1,13 +1,6 @@
 import theme from './theme';
 
 const muiTheme = {
-  overrides: {
-    MuiButton: {
-      root: {
-        textTransform: 'none',
-      },
-    },
-  },
   palette: {
     contrastThreshold: 3, // Maximize the contrast between the background and the text.
     error: theme.palette.error,
