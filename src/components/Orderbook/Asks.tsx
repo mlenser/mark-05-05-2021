@@ -1,7 +1,7 @@
 import React from 'react';
 import { sortByPriceLowFirst } from '../../utils/sort/sortByPrice';
-import { formatNumber } from '../../utils/formatNumber';
 import { addRunningTotal } from '../../utils/addRunningTotal';
+import PriceSizeTotal from './PriceSizeTotal';
 
 type Props = {
   values: SizePrice[];
@@ -12,11 +12,7 @@ const Asks: React.FC<Props> = ({ values }) => {
   const valuesWithTotal = sortedValues.reduce(addRunningTotal, []);
   return (
     <div>
-      {valuesWithTotal.map(([price, size, total]) => (
-        <div key={`${price}-${size}-${total}`}>
-          {formatNumber(price)}: {formatNumber(size)}: {formatNumber(total)}
-        </div>
-      ))}
+      <PriceSizeTotal values={valuesWithTotal} />
     </div>
   );
 };
