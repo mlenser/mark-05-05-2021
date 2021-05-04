@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import loadable from '@loadable/component';
 import PageWrapper from './PageWrapper';
-import ThemeProvider from './ThemeProvider';
 
 const AppWrapper = styled.div`
   display: flex;
@@ -21,15 +20,13 @@ const LazyScrollTop = loadable(() => import('./ScrollTop'));
 
 const Layout: React.FC<Props> = ({ children }) => (
   <AppWrapper>
-    <ThemeProvider>
-      <PageWrapper>
-        <div id="top" />
-        <main>
-          {children}
-          <LazyScrollTop />
-        </main>
-      </PageWrapper>
-    </ThemeProvider>
+    <PageWrapper>
+      <div id="top" />
+      <main>
+        {children}
+        <LazyScrollTop />
+      </main>
+    </PageWrapper>
   </AppWrapper>
 );
 
