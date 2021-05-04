@@ -208,14 +208,14 @@ const Wrapper = styled.div`
 `;
 
 const Orderbook: React.FC = () => {
-  const [group, setGroup] = useState(0.5);
+  const [groupInterval, setGroup] = useState(0.5);
 
   return (
     <div>
-      <GroupAdjuster group={group} setGroup={setGroup} />
+      <GroupAdjuster groupInterval={groupInterval} setGroup={setGroup} />
       <Wrapper>
-        <Bids group={group} values={data[0].bids} />
-        <Asks group={group} values={data[0].asks} />
+        <Bids groupInterval={groupInterval} values={data[0].bids} />
+        <Asks groupInterval={groupInterval} values={data[0].asks} />
       </Wrapper>
     </div>
   );

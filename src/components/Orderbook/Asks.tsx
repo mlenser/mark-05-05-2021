@@ -5,13 +5,16 @@ import { groupByInterval } from '../../utils/groupByInterval';
 import PriceSizeTotal from './PriceSizeTotal';
 
 type Props = {
-  group: number;
+  groupInterval: number;
   values: SizePrice[];
 };
 
-const Asks: React.FC<Props> = ({ group, values }) => {
+const Asks: React.FC<Props> = ({ groupInterval, values }) => {
   const sortedValues = values.sort(sortByPriceLowFirst);
-  const groupedValues = groupByInterval({ group, values: sortedValues });
+  const groupedValues = groupByInterval({
+    groupInterval,
+    values: sortedValues,
+  });
   const valuesWithTotal = addRunningTotal(groupedValues);
   return (
     <div>

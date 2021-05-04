@@ -16,26 +16,26 @@ const Group = styled.div`
   text-align: right;
 `;
 
-const grouping = [0.5, 1, 2.5, 5, 10, 25, 50, 100, 250, 500, 1000, 2500];
+const groupIntervals = [0.5, 1, 2.5, 5, 10, 25, 50, 100, 250, 500, 1000, 2500];
 
 type Props = {
-  group: number;
+  groupInterval: number;
   setGroup: (value: number) => void;
 };
 
-const GroupAdjuster: React.FC<Props> = ({ group, setGroup }) => {
+const GroupAdjuster: React.FC<Props> = ({ groupInterval, setGroup }) => {
   const decrementGroup = () => {
-    const currentIndex = grouping.indexOf(group);
+    const currentIndex = groupIntervals.indexOf(groupInterval);
     const newIndex = currentIndex - 1;
     if (newIndex >= 0) {
-      setGroup(grouping[newIndex]);
+      setGroup(groupIntervals[newIndex]);
     }
   };
   const incrementGroup = () => {
-    const currentIndex = grouping.indexOf(group);
+    const currentIndex = groupIntervals.indexOf(groupInterval);
     const newIndex = currentIndex + 1;
-    if (newIndex < grouping.length) {
-      setGroup(grouping[newIndex]);
+    if (newIndex < groupIntervals.length) {
+      setGroup(groupIntervals[newIndex]);
     }
   };
 
@@ -43,13 +43,15 @@ const GroupAdjuster: React.FC<Props> = ({ group, setGroup }) => {
     <Wrapper>
       <Group>
         <Tooltip title="The Spread at which the orderbook will group orders together.">
-          <TooltipIndicator>Group: {formatNumber(group)}</TooltipIndicator>
+          <TooltipIndicator>
+            Group: {formatNumber(groupInterval)}
+          </TooltipIndicator>
         </Tooltip>
       </Group>
       <IconButton
         aria-label="Reduce the grouping"
         color="primary"
-        disabled={group === grouping[0]}
+        disabled={groupInterval === groupIntervals[0]}
         onClick={decrementGroup}
       >
         −
@@ -57,7 +59,7 @@ const GroupAdjuster: React.FC<Props> = ({ group, setGroup }) => {
       <IconButton
         aria-label="Increase the grouping"
         color="primary"
-        disabled={group === grouping[grouping.length - 1]}
+        disabled={groupInterval === groupIntervals[groupIntervals.length - 1]}
         onClick={incrementGroup}
       >
         +
