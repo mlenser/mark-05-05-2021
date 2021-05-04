@@ -3,6 +3,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { formatNumber } from '../../utils/formatNumber';
 import { formatPrice } from '../../utils/formatPrice';
+import TooltipIndicator from '../TooltipIndicator';
 
 type Field = string;
 type Type = string;
@@ -24,10 +25,6 @@ const Column = styled.div<{ field?: string; type?: string }>`
   text-align: right;
   ${({ field, type }) =>
     field === 'price' && (type === 'asks' ? AsksPriceStyle : BidsPriceStyle)};
-`;
-
-const TooltipIndicator = styled.span`
-  border-bottom: 1px dotted ${({ theme }) => theme.palette.textColor};
 `;
 
 const getTitleAndText = ({
