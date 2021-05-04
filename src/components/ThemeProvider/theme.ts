@@ -1,5 +1,6 @@
 import blue from '@material-ui/core/colors/blue';
 import red from '@material-ui/core/colors/red';
+import { DefaultTheme } from './DefaultTheme';
 
 const breakpoints = {
   /* eslint-disable sort-keys-fix/sort-keys-fix */
@@ -18,17 +19,15 @@ const createBreakpoint = (width: number): string => `(min-width: ${width}px)`;
 const createMaxBreakpoint = (width: number): string =>
   `(max-width: ${width}px)`;
 
-const theme = {
+const theme: DefaultTheme = {
   device: {
     /* eslint-disable sort-keys-fix/sort-keys-fix */
     mobileS: createBreakpoint(breakpoints.mobileS),
     mobileM: createBreakpoint(breakpoints.mobileM),
     mobileL: createBreakpoint(breakpoints.mobileL),
-    mobileLMax: createMaxBreakpoint(breakpoints.mobileL),
     tablet: createBreakpoint(breakpoints.tablet),
     laptop: createBreakpoint(breakpoints.laptop),
     desktop: createBreakpoint(breakpoints.desktop),
-    desktopLarge: createBreakpoint(breakpoints.desktopLarge),
     /* eslint-enable sort-keys-fix/sort-keys-fix */
   },
   palette: {
@@ -50,24 +49,23 @@ const theme = {
     textColor: 'rgb(255, 255, 255, 0.87)',
   },
   sizes: {
-    /* eslint-disable sort-keys-fix/sort-keys-fix */
-    xxxxsmall: '0.125rem', // 2px
     xxxsmall: '0.25rem', // 4px
     xxsmall: '0.5rem', // 8px
-    xsmall: '0.75rem', // 12px
-    small: '0.875rem', // 14px
-    normal: '1rem', // 16px
-    normedium: '1.25rem', // 20px
-    medium: '1.5rem', // 24px
-    large: '2rem', // 32px
-    xlarge: '2.5rem', // 40px
-    xxlarge: '4rem', // 64px
-    xxxlarge: '5rem', // 80px
-    xxxxlarge: '6rem', // 96px
-    /* eslint-enable sort-keys-fix/sort-keys-fix */
+    xsmall: '0.625rem', // 10px
+    small: '0.75rem', // 12px
+    medium: '1rem', // 16px
+    large: '1.25rem', // 20px
+    xlarge: '1.5rem', // 24px
+    xxlarge: '2rem', // 32px
+    xxxlarge: '2.5rem', // 40px
+    xxxxlarge: '3rem', // 48px
+    xxxxxxxlarge: '4.5rem', // 72px
   },
   widths: {
-    /* eslint-disable sort-keys-fix/sort-keys-fix */
+    xxxxxxxsmall: '5rem', // 80px
+    xxxxxxsmall: '7.5rem', // 120px
+    xxxxxsmall: '10rem', // 160px
+    xxxxsmall: '15rem', // 240px
     xxxsmall: '20rem', // 320px
     xxsmall: '25rem', // 400px
     xsmall: '30rem', // 480px
@@ -75,7 +73,8 @@ const theme = {
     medium: '40rem', // 640px
     large: '45rem', // 720px
     xlarge: '50rem', // 800px
-    /* eslint-enable sort-keys-fix/sort-keys-fix */
+    xxlarge: '55rem', // 880px
+    xxxlarge: '60rem', // 960px
   },
 };
 
