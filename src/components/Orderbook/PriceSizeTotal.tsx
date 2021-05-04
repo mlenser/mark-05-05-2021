@@ -55,7 +55,7 @@ const Wrapper = styled.div<{ filled?: string; type: string }>`
       );
     `};
   display: grid;
-  grid-gap: ${({ theme }) => theme.sizes.normal};
+  grid-gap: ${({ theme }) => theme.sizes.medium};
   grid-template-columns: 1fr 1fr 1fr 1fr;
 `;
 
