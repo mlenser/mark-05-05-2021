@@ -7,7 +7,7 @@ import Orderbook from '../components/Orderbook/Orderbook';
 const IndexPage: React.FC = () => (
   <Layout>
     <SEO title="Orderbook" />
-    <H1>Orderbook</H1>
+    <H1>Orderbook Mark</H1>
     <Orderbook />
   </Layout>
 );
