@@ -214,8 +214,8 @@ const Orderbook: React.FC = () => {
     <div>
       <GroupAdjuster group={group} setGroup={setGroup} />
       <Wrapper>
-        <Bids values={data[0].bids} />
-        <Asks values={data[0].asks} />
+        <Bids group={group} values={data[0].bids} />
+        <Asks group={group} values={data[0].asks} />
       </Wrapper>
     </div>
   );
