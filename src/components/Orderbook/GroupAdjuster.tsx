@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 `;
 
 const Group = styled.div`
-  min-width: ${({ theme }) => theme.sizes.xxxxlarge}; /* Handle 4 digits */
+  min-width: ${({ theme }) => theme.sizes.xxxxxxlarge}; /* Handle 4 digits */
   text-align: right;
 `;
 

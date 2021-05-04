@@ -59,7 +59,8 @@ const theme: DefaultTheme = {
     xxlarge: '2rem', // 32px
     xxxlarge: '2.5rem', // 40px
     xxxxlarge: '3rem', // 48px
-    xxxxxxxlarge: '4.5rem', // 72px
+    xxxxxlarge: '4rem', // 64px
+    xxxxxxlarge: '5rem', // 80px
   },
   widths: {
     xxxxxxxsmall: '5rem', // 80px

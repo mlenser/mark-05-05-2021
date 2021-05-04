@@ -9,5 +9,6 @@ export interface Sizes {
   xxlarge: string;
   xxxlarge: string;
   xxxxlarge: string;
-  xxxxxxxlarge: string;
+  xxxxxlarge: string;
+  xxxxxxlarge: string;
 }
