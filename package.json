@@ -13,6 +13,7 @@
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
+    "test": "jest",
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --watch --noEmit"
   },
@@ -39,10 +40,28 @@
     "typescript": "4.2.4"
   },
   "devDependencies": {
+    "@swc-node/jest": "1.2.1",
+    "@types/jest": "26.0.23",
     "@types/loadable__component": "5.13.3",
     "@types/react": "17.0.4",
     "@types/react-helmet": "6.1.1",
     "@types/styled-components": "5.1.9",
-    "babel-plugin-styled-components": "1.12.0"
+    "babel-plugin-styled-components": "1.12.0",
+    "jest": "26.6.3"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.((j|t)s)x?$": [
+        "@swc-node/jest",
+        {
+          "dynamicImport": true
+        }
+      ]
+    },
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      ".cache",
+      "./public"
+    ]
   }
 }
