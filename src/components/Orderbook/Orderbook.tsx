@@ -7,7 +7,6 @@ import { OrderbookContextProvider } from './OrderbookContext';
 
 const Wrapper = styled.div`
   display: grid;
-  grid-gap: ${({ theme }) => theme.sizes.normal};
   grid-template-columns: 1fr 1fr;
 `;
 

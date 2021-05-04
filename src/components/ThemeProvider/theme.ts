@@ -32,7 +32,9 @@ const theme = {
     /* eslint-enable sort-keys-fix/sort-keys-fix */
   },
   palette: {
+    asksColor: 'rgb(241 79 76)',
     background: 'rgb(27 42 49)',
+    bidsColor: 'rgb(36 172 124)',
     blue: {
       ...blue,
       main: blue[500],

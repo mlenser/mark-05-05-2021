@@ -4,25 +4,57 @@ import styled, { css } from 'styled-components';
 import { formatNumber } from '../../utils/formatNumber';
 import { formatPrice } from '../../utils/formatPrice';
 import TooltipIndicator from '../TooltipIndicator';
+import { useOrderbookContext } from './OrderbookContext';
+import { getPercentage } from '../../utils/getPercentage';
 
 type Field = string;
 type Type = string;
 
-const Wrapper = styled.div`
+const getDirectionFromType = (type: Type) => {
+  if (type === 'asks') {
+    return 'to right';
+  }
+  if (type === 'bids') {
+    return 'to left';
+  }
+};
+
+const getColorFromType = (type: Type) => {
+  if (type === 'asks') {
+    return 'rgb(68 38 49)';
+  }
+  if (type === 'bids') {
+    return 'rgb(23 60 46)';
+  }
+};
+
+const Wrapper = styled.div<{ filled?: string; type: string }>`
+  ${({ filled, type }) =>
+    filled &&
+    css`
+      background: linear-gradient(
+        ${getDirectionFromType(type)},
+        ${getColorFromType(type)} 0%,
+        ${getColorFromType(type)} ${filled},
+        transparent ${filled},
+        transparent 100%
+      );
+    `};
   display: grid;
   grid-gap: ${({ theme }) => theme.sizes.normal};
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 `;
 
 const AsksPriceStyle = css`
-  color: rgb(241 79 76);
+  color: ${({ theme }) => theme.palette.asksColor};
 `;
 const BidsPriceStyle = css`
-  color: rgb(36 172 124);
+  color: ${({ theme }) => theme.palette.bidsColor};
 `;
 
 const Column = styled.div<{ field?: string; type?: string }>`
   text-align: right;
+  text-shadow: 0 0 3px #000;
   ${({ field, type }) =>
     field === 'price' && (type === 'asks' ? AsksPriceStyle : BidsPriceStyle)};
 `;
@@ -110,15 +142,20 @@ const PriceSizeTotal: React.FC<Props> = ({
   type,
   values,
 }) => {
+  const { largestSum } = useOrderbookContext();
   return (
     <>
-      <Wrapper>
+      <Wrapper type={type}>
         {order.map((field) => (
           <Column key={`column-${field}`}>{getHeading({ field, type })}</Column>
         ))}
       </Wrapper>
       {values.map(([price, size, total]) => (
-        <Wrapper key={`${price}-${size}-${total}`}>
+        <Wrapper
+          key={`${price}-${size}-${total}`}
+          filled={getPercentage(total / largestSum)}
+          type={type}
+        >
           {order.map((field) => (
             <Column
               key={`${price}-${size}-${total}-${field}`}
