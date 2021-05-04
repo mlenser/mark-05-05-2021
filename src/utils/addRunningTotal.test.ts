@@ -11,7 +11,7 @@ describe('addRunningTotal', () => {
       [6, 6],
       [7, 7],
     ];
-    const result = input.reduce(addRunningTotal, []);
+    const result = addRunningTotal(input);
     expect(result).toEqual([
       [1, 1, 1],
       [2, 2, 3],
