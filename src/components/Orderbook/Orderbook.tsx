@@ -1,4 +1,7 @@
 import React from 'react';
+import styled from 'styled-components';
+import Bids from './Bids';
+import Asks from './Asks';
 
 const data = [
   {
@@ -197,8 +200,19 @@ const data = [
   },
 ];
 
+const Wrapper = styled.div`
+  display: grid;
+  grid-gap: ${({ theme }) => theme.sizes.normal};
+  grid-template-columns: 1fr 1fr;
+`;
+
 const Orderbook: React.FC = () => {
-  return <div>test</div>;
+  return (
+    <Wrapper>
+      <Bids values={data[0].bids} />
+      <Asks values={data[0].asks} />
+    </Wrapper>
+  );
 };
 
 export default Orderbook;
