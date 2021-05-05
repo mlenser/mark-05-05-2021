@@ -1,4 +1,5 @@
 import {
+  addValue,
   removeValueByPrice,
   replaceValueByPrice,
 } from './replaceOrRemoveValues';
@@ -38,6 +39,27 @@ describe('replaceOrRemoveValues', () => {
         [56458, 1],
         [56458.5, 70232],
         [56461, 1965],
+      ]);
+    });
+  });
+  describe('addValue', () => {
+    it('should add a value', () => {
+      const values = [
+        [56456.5, 6509],
+        [56458, 11295],
+        [56458.5, 70232],
+        [56461, 1965],
+      ];
+      const result = addValue({
+        newValue: [44, 111],
+        values,
+      });
+      expect(result).toEqual([
+        [56456.5, 6509],
+        [56458, 11295],
+        [56458.5, 70232],
+        [56461, 1965],
+        [44, 111],
       ]);
     });
   });

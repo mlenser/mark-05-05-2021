@@ -42,6 +42,14 @@ export const replaceValueByPrice = ({
   values: AsksValues | BidsValues;
 }) => Object.assign([], values, { [indexToReplace]: newValue });
 
+export const addValue = ({
+  newValue,
+  values,
+}: {
+  newValue: SizePrice;
+  values: AsksValues | BidsValues;
+}) => [...values, newValue];
+
 const replaceOrAddValue = ({
   adjustValues,
   value,
@@ -65,6 +73,13 @@ const replaceOrAddValue = ({
       }
     }
   } else {
+    const newValues = addValue({
+      newValue: value,
+      values,
+    });
+    if (newValues) {
+      adjustValues(newValues);
+    }
   }
 };
 
