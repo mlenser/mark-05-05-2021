@@ -3,14 +3,14 @@
 ## 1. What would you add to your solution if you had more time?
 
 1. Investigate if `setState` is not updating the values quick enough. It may be possible that data is not displaying correctly, but it is really difficult to know if that is the case as the sample URL does not get data from the same place. If this is the case you could use `useRef` to store the asks and bids and then adjust that all the way down, setting the value in the context at the end. It would require mutation in `adjustValues.ts` which I think is best to avoid unless that is the only way. I explored that as an option in the `mutate` branch (mainly on `DataWrapper` and `adjustValues`, but don't think it is a good way forward). More information would be needed before proceeding.
-2. Check components to see if we can prevent rerendering as there is a lot of data changing and that is leading to the app crashing out locally, but it doesn't in production so I think it may be an issue with the local Gatsby server.
+2. Check components to see if we can prevent rerendering as there is a lot of data changing. This may be the cause of the app crashing locally, but it doesn't crash in production, so I think it may be an issue with the local Gatsby server.
 3. Find out how to solve the issue of styled-components generating hundreds of classes as the width of `barStyle` in `PriceSizeTotal` changes frequently. They recommend using `.attrs`, but there doesn't seem to be a way to use a media query with that which is needed.
-4. Automatically determine how many rows to show based on screen size. I could calculate the viewport height and divide by the size of a row to determine how many rows to show. Currently this is hardcoded to 15 which is more mobile-friendly.
+4. Automatically determine how many rows to show based on screen size. I could calculate the viewport height and divide by the size of a row to determine how many rows to show. Currently, this is hardcoded to 15 which is more mobile-friendly.
 5. Add a skeleton loading state for the graph for the milliseconds before the websocket connects. The delay could be longer on slow devices.
 6. Use a proper set of components from a design system, or create one.
 7. Possibly replace Material UI with the design system used in an organization.
 8. Add local storage for the `groupInterval` so it is saved for the user each time they visit.
-9. Fix tooltips so they work on mobile (Material UI issue).
+9. Fix tooltips, so they work on mobile (Material UI issue).
 
 ## 2. What would you have done differently if you knew this page was going to get thousands of views per second vs per week?
 
@@ -22,7 +22,7 @@ With a CDN we can do edge-caching. If we don't have edge-caching then we can add
 
 Most of the data is client based via websockets and that hits the backend. So the backend should potentially add some limits when they start having load issues. Perhaps they could limit the update time once they detect memory is at 70% for example.
 
-If we have issues with bots we could add other services in front like cloudflare.
+If we have issues with bots, then we could add other services in front of our server like cloudflare.
 
 ## 3. What was the most useful feature that was added to the latest version of your chosen language? Please include a snippet of code that shows how you've used it.
 
