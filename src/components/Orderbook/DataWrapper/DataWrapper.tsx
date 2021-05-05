@@ -3,7 +3,7 @@ import useWebSocket from 'react-use-websocket';
 import { connectionStatus } from '../../../constants/websocket-states';
 import { useOrderbookContext } from '../OrderbookContext';
 import { setData } from './setData';
-import { replaceOrRemoveValues } from './replaceOrRemoveValues';
+import { adjustValues } from './adjustValues';
 
 const socketUrl = 'wss://www.cryptofacilities.com/ws/v1';
 
@@ -38,7 +38,7 @@ const Orderbook: React.FC = () => {
       setData({ asks, bids, setAsksValues, setBidsValues });
     }
     if (feed === 'book_ui_1') {
-      replaceOrRemoveValues({
+      adjustValues({
         asks,
         bids,
         asksValues,

@@ -2,7 +2,7 @@ import {
   addValue,
   removeValueByPrice,
   replaceValueByPrice,
-} from './replaceOrRemoveValues';
+} from './adjustValues';
 
 describe('replaceOrRemoveValues', () => {
   describe('removeValueByPrice', () => {

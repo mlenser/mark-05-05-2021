@@ -86,7 +86,7 @@ const replaceOrRemoveValuesTogether = ({
   }
 };
 
-export const replaceOrRemoveValues = ({
+export const adjustValues = ({
   asks,
   asksValues,
   bids,
