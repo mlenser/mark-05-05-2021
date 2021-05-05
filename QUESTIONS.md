@@ -70,3 +70,10 @@ If it's the server being overwhelmed then we need to look at our CDN and backend
 - DDOS attacks can occur when someone has many users hit your site at the same time in an attempt to overwhelm your server, causing the site to be unavailable. Static can help with the client here, but there are always limits. Recaptcha can help with any forms or other interactions. We can use some services like Cloudflare if this occurs regularly.
 
 ## 6. How would you improve the Kraken API that you just used?
+
+Without extensive knowledge of the API and possible use cases it is hard to say definitively what could be improved. From my short time working with it, from a frontend developer perspective the following would be easier ways for me to handle the data:
+
+- Instead of passing the raw updated values the following would be better:
+  - An array of prices to remove (instead of providing a price and size 0). This could easily be iterated over by finding values by the price listed and removing them.
+  - An array of values to adjust with a `price` and `size` to update to. This could be iterated over to find the items by `price` and adjust the `size`.
+  - An array of values to add. I could simply add these on without searching.
