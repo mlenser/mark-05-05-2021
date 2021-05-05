@@ -5,6 +5,7 @@ import Bids from './Bids';
 import Asks from './Asks';
 import GroupAdjuster from './GroupAdjuster';
 import { OrderbookContextProvider } from './OrderbookContext';
+import DataWrapper from './DataWrapper';
 
 const desktopStyle = css`
   display: grid;
@@ -24,6 +25,7 @@ const Orderbook: React.FC = () => {
 
   return (
     <OrderbookContextProvider>
+      <DataWrapper />
       <div>
         <GroupAdjuster />
         <Wrapper aboveMobile={aboveMobile}>

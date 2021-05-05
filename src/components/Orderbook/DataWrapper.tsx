@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
 import { connectionStatus } from '../../constants/websocket-states';
+import { useOrderbookContext } from './OrderbookContext';
+import { SizePrice } from '../../types/SizePrice';
 
 const socketUrl = 'wss://www.cryptofacilities.com/ws/v1';
 
 const Orderbook: React.FC = () => {
-  const messageHistory = useRef([]);
-
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
     socketUrl,
     {
@@ -16,36 +16,52 @@ const Orderbook: React.FC = () => {
       shouldReconnect: () => true,
     },
   );
+  const { setAsksValues, setBidsValues } = useOrderbookContext();
 
-  messageHistory.current = useMemo(() => {
-    if (lastJsonMessage) {
-      return messageHistory.current.concat(lastJsonMessage);
+  const setData = ({
+    asks,
+    bids,
+  }: {
+    asks: SizePrice[];
+    bids: SizePrice[];
+  }) => {
+    if (asks) {
+      setAsksValues(asks);
     }
-    return [];
-  }, [lastJsonMessage]);
+    if (bids) {
+      setBidsValues(bids);
+    }
+  };
+
+  const replaceOrRemoveData = ({
+    asks,
+    bids,
+  }: {
+    asks: SizePrice[];
+    bids: SizePrice[];
+  }) => {
+    console.log('data', asks, bids);
+  };
 
   useEffect(() => {
-    /*
     sendJsonMessage({
       event: 'subscribe',
       feed: 'book_ui_1',
       product_ids: ['PI_XBTUSD'],
     });
-     */
   }, []);
 
-  console.log('messageHistory.current', messageHistory.current);
+  useEffect(() => {
+    const { asks, bids, feed } = lastJsonMessage || {};
+    if (feed === 'book_ui_1_snapshot') {
+      setData({ asks, bids });
+    }
+    if (feed === 'book_ui_1') {
+      replaceOrRemoveData({ asks, bids });
+    }
+  }, [lastJsonMessage]);
 
-  return (
-    <div>
-      <div>Status: {connectionStatus[readyState]}.</div>
-      <ul>
-        {messageHistory.current?.map((message) => (
-          <li key={JSON.stringify(message)}>{JSON.stringify(message)}</li>
-        ))}
-      </ul>
-    </div>
-  );
+  return <div>Websocket status: {connectionStatus[readyState]}</div>;
 };
 
 export default Orderbook;
