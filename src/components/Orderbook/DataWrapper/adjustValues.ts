@@ -65,23 +65,21 @@ export const getNewValues = ({
   newValues: AsksValues | BidsValues;
   values: AsksValues | BidsValues;
 }) => {
-  if (newValues?.length > 0) {
-    let tempValues = [...values];
-    newValues.forEach((value) => {
-      if (value[1] === 0) {
-        tempValues = removeValueByPrice({
-          removePrice: value[0],
-          values: tempValues,
-        });
-      } else {
-        tempValues = replaceOrAddValue({
-          value,
-          values: tempValues,
-        });
-      }
-    });
-    return tempValues;
-  }
+  let tempValues = [...values];
+  newValues.forEach((value) => {
+    if (value[1] === 0) {
+      tempValues = removeValueByPrice({
+        removePrice: value[0],
+        values: tempValues,
+      });
+    } else {
+      tempValues = replaceOrAddValue({
+        value,
+        values: tempValues,
+      });
+    }
+  });
+  return tempValues;
 };
 
 export const adjustValues = ({
@@ -99,18 +97,18 @@ export const adjustValues = ({
   setAsksValues: SetAsksValues;
   setBidsValues: SetBidsValues;
 }) => {
-  const newAsksValue = getNewValues({
-    newValues: asks,
-    values: asksValues,
-  });
-  if (newAsksValue) {
+  if (asks?.length > 0) {
+    const newAsksValue = getNewValues({
+      newValues: asks,
+      values: asksValues,
+    });
     setAsksValues(newAsksValue);
   }
-  const newBidsValue = getNewValues({
-    newValues: bids,
-    values: bidsValues,
-  });
-  if (newBidsValue) {
+  if (bids?.length > 0) {
+    const newBidsValue = getNewValues({
+      newValues: bids,
+      values: bidsValues,
+    });
     setBidsValues(newBidsValue);
   }
 };
