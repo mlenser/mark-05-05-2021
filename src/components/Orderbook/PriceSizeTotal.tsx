@@ -30,7 +30,7 @@ const getColorFromType = (type: Type) => {
   }
 };
 
-const Wrapper = styled.div<{ filled?: string; type: string }>`
+const barStyle = css<{ filled?: string; type: string }>`
   @media ${({ theme }) => theme.device.tablet} {
     ${({ filled, type }) =>
       filled &&
@@ -55,6 +55,10 @@ const Wrapper = styled.div<{ filled?: string; type: string }>`
         transparent 100%
       );
     `};
+`;
+
+const Wrapper = styled.div<{ filled?: string; type: string }>`
+  ${barStyle};
   display: grid;
   grid-gap: ${({ theme }) => theme.sizes.medium};
   grid-template-columns: 1fr 1fr 1fr 1fr;
