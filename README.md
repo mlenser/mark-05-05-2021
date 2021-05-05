@@ -7,7 +7,10 @@
 ## Start the app
 
 1. `yarn develop`
+2. Open http://localhost:8000/ in the browser
 
-## Build the app
+## Build & run the static app
 
 1. `yarn build`
+2. `yarn serve`
+3. Open http://localhost:9000/ in the browser
