@@ -14,7 +14,7 @@ export const removeValueByPrice = ({
   values: AsksValues | BidsValues;
 }) => values.filter((value) => value[0] !== removePrice);
 
-export const removeValue = ({
+const removeValue = ({
   adjustValues,
   removePrice,
   values,
@@ -29,6 +29,42 @@ export const removeValue = ({
   });
   if (newValues) {
     adjustValues(newValues);
+  }
+};
+
+export const replaceValueByPrice = ({
+  indexToReplace,
+  newValue,
+  values,
+}: {
+  indexToReplace: number;
+  newValue: SizePrice;
+  values: AsksValues | BidsValues;
+}) => Object.assign([], values, { [indexToReplace]: newValue });
+
+const replaceOrAddValue = ({
+  adjustValues,
+  value,
+  values,
+}: {
+  adjustValues: SetAsksValues | SetBidsValues;
+  value: SizePrice;
+  values: AsksValues | BidsValues;
+}) => {
+  const existingValue = values.find((val) => val[0] === value[0]);
+  if (existingValue) {
+    const indexToReplace = values.indexOf(existingValue);
+    if (indexToReplace > -1) {
+      const newValues = replaceValueByPrice({
+        indexToReplace,
+        newValue: value,
+        values,
+      });
+      if (newValues) {
+        adjustValues(newValues);
+      }
+    }
+  } else {
   }
 };
 
@@ -55,6 +91,12 @@ export const replaceOrRemoveValues = ({
         removePrice: ask[0],
         values: asksValues,
       });
+    } else {
+      replaceOrAddValue({
+        adjustValues: setAsksValues,
+        value: ask,
+        values: asksValues,
+      });
     }
   });
   bids?.forEach((bid) => {
@@ -62,6 +104,12 @@ export const replaceOrRemoveValues = ({
       removeValue({
         adjustValues: setBidsValues,
         removePrice: bid[0],
+        values: bidsValues,
+      });
+    } else {
+      replaceOrAddValue({
+        adjustValues: setBidsValues,
+        value: bid,
         values: bidsValues,
       });
     }
