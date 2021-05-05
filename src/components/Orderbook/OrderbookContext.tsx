@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { SizePrice } from '../../types/SizePrice';
 import { sumSize } from '../../utils/sumSize';
 import { topValues } from '../../utils/topValues';
 import { groupedValuesWithTotal } from '../../utils/groupedValuesWithTotal';
+import { lastValues } from '../../utils/lastValues';
 
 export type OrderbookContextProviderType = {
   asksValues: SizePrice[];
@@ -30,6 +32,7 @@ export const OrderbookContextProvider: React.FC = ({ children }) => {
     [],
   );
   const [largestSum, setLargestSum] = useState(0);
+  const aboveMobile = useMediaQuery('(min-width: 768px)');
 
   const state: OrderbookContextProviderType = {
     asksValues,
@@ -45,18 +48,22 @@ export const OrderbookContextProvider: React.FC = ({ children }) => {
   };
 
   useEffect(() => {
-    const asksForDisplay = groupedValuesWithTotal({
+    const asksGrouped = groupedValuesWithTotal({
       groupInterval,
       values: asksValues,
     });
+    const asksForDisplay = topValues(asksGrouped);
     setAsksValuesForDisplay(asksForDisplay);
-    const asksSum = sumSize({ values: topValues(asksForDisplay) });
-    const bidsForDisplay = groupedValuesWithTotal({
+    const asksSum = sumSize({ values: asksForDisplay });
+    const bidsGrouped = groupedValuesWithTotal({
       groupInterval,
       values: bidsValues,
     });
+    const bidsForDisplay = aboveMobile
+      ? topValues(bidsGrouped)
+      : lastValues(bidsGrouped.reverse());
     setBidsValuesForDisplay(bidsForDisplay);
-    const bidsSum = sumSize({ values: topValues(bidsForDisplay) });
+    const bidsSum = sumSize({ values: bidsForDisplay });
     setLargestSum(Math.max(asksSum, bidsSum));
   }, [asksValues, bidsValues]);
 
