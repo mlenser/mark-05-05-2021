@@ -4,9 +4,10 @@
 
 1. Use a proper set of components from a design system, or create one.
 2. Add a skeleton loading state for the graph for the milliseconds before the websocket connects. The delay could be longer on slow devices.
-3. Possibly replace Material UI with the design system used in an organization.
-4. Add local storage for the `groupInterval` so it is saved for the user each time they visit.
-5. Fix tooltips so they work on mobile (Material UI issue).
+3. Check components to see if we can prevent rerendering as there is a lot of data changing and maybe some of the data can be ignored.
+4. Possibly replace Material UI with the design system used in an organization.
+5. Add local storage for the `groupInterval` so it is saved for the user each time they visit.
+6. Fix tooltips so they work on mobile (Material UI issue).
 
 ## 2. What would you have done differently if you knew this page was going to get thousands of views per second vs per week?
 
