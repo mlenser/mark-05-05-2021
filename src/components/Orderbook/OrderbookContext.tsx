@@ -9,14 +9,14 @@ export type OrderbookContextProviderType = {
   largestSum: number;
   setAsksValues: (values: SizePrice[]) => void;
   setBidsValues: (values: SizePrice[]) => void;
-  setGroup: (value: number) => void;
+  setGroupInterval: (value: number) => void;
   setLargestSum: (value: number) => void;
 };
 
 const OrderbookContext = createContext({} as OrderbookContextProviderType);
 
 export const OrderbookContextProvider: React.FC = ({ children }) => {
-  const [groupInterval, setGroup] = useState(0.5);
+  const [groupInterval, setGroupInterval] = useState(0.5);
   const [asksSum, setAsksSum] = useState(0);
   const [asksValues, setAsksValues] = useState<SizePrice[]>([]);
   const [bidsSum, setBidsSum] = useState(0);
@@ -30,7 +30,7 @@ export const OrderbookContextProvider: React.FC = ({ children }) => {
     largestSum,
     setAsksValues,
     setBidsValues,
-    setGroup,
+    setGroupInterval,
     setLargestSum,
   };
 

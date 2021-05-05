@@ -20,20 +20,20 @@ const Group = styled.div`
 const groupIntervals = [0.5, 1, 2.5, 5, 10, 25, 50, 100, 250, 500, 1000, 2500];
 
 const GroupAdjuster: React.FC = () => {
-  const { groupInterval, setGroup } = useOrderbookContext();
+  const { groupInterval, setGroupInterval } = useOrderbookContext();
 
   const decrementGroup = () => {
     const currentIndex = groupIntervals.indexOf(groupInterval);
     const newIndex = currentIndex - 1;
     if (newIndex >= 0) {
-      setGroup(groupIntervals[newIndex]);
+      setGroupInterval(groupIntervals[newIndex]);
     }
   };
   const incrementGroup = () => {
     const currentIndex = groupIntervals.indexOf(groupInterval);
     const newIndex = currentIndex + 1;
     if (newIndex < groupIntervals.length) {
-      setGroup(groupIntervals[newIndex]);
+      setGroupInterval(groupIntervals[newIndex]);
     }
   };
 
