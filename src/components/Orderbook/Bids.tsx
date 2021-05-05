@@ -1,5 +1,4 @@
 import React from 'react';
-import { groupedValuesWithTotal } from '../../utils/groupedValuesWithTotal';
 import { lastValues } from '../../utils/lastValues';
 import { topValues } from '../../utils/topValues';
 import PriceSizeTotal from './PriceSizeTotal';
@@ -10,14 +9,10 @@ type Props = {
 };
 
 const Bids: React.FC<Props> = ({ aboveMobile }) => {
-  const { bidsValues, groupInterval } = useOrderbookContext();
-  const valuesGroupedWithTotal = groupedValuesWithTotal({
-    groupInterval,
-    values: bidsValues,
-  });
+  const { bidsValuesForDisplay } = useOrderbookContext();
   const values = aboveMobile
-    ? topValues(valuesGroupedWithTotal)
-    : lastValues(valuesGroupedWithTotal.reverse());
+    ? topValues(bidsValuesForDisplay)
+    : lastValues(bidsValuesForDisplay.reverse());
 
   return (
     <div>
