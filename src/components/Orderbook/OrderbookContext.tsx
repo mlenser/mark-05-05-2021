@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { SizePrice } from '../../types/SizePrice';
 import { sumSize } from '../../utils/sumSize';
-import { mockData } from './mockData';
+import { mockData } from './DataWrapper/mockData';
 
 export type OrderbookContextProviderType = {
   asksValues: SizePrice[];
