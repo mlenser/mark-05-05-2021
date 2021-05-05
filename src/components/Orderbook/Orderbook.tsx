@@ -5,7 +5,7 @@ import Bids from './Bids';
 import Asks from './Asks';
 import GroupAdjuster from './GroupAdjuster';
 import { OrderbookContextProvider } from './OrderbookContext';
-import DataWrapper from './DataWrapper';
+import DataWrapper from './DataWrapper/DataWrapper';
 
 const desktopStyle = css`
   display: grid;
