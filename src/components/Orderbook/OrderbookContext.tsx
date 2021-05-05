@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { SizePrice } from '../../types/SizePrice';
 import { sumSize } from '../../utils/sumSize';
-import { mockData } from './DataWrapper/mockData';
 
 export type OrderbookContextProviderType = {
   asksValues: SizePrice[];
@@ -19,9 +18,9 @@ const OrderbookContext = createContext({} as OrderbookContextProviderType);
 export const OrderbookContextProvider: React.FC = ({ children }) => {
   const [groupInterval, setGroup] = useState(0.5);
   const [asksSum, setAsksSum] = useState(0);
-  const [asksValues, setAsksValues] = useState<SizePrice[]>(mockData[0].asks);
+  const [asksValues, setAsksValues] = useState<SizePrice[]>([]);
   const [bidsSum, setBidsSum] = useState(0);
-  const [bidsValues, setBidsValues] = useState<SizePrice[]>(mockData[0].bids);
+  const [bidsValues, setBidsValues] = useState<SizePrice[]>([]);
   const [largestSum, setLargestSum] = useState(Math.max(asksSum, bidsSum));
 
   const state: OrderbookContextProviderType = {
