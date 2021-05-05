@@ -35,4 +35,18 @@ If it's the server being overwhelmed then we need to look at our CDN and backend
 
 ## 5. Can you describe common security concerns to consider for a frontend developer?
 
+- Cross-site scripting (XSS) attacks. An attacker can put malicious code into the web application that runs when another user accesses the site. Some problem areas where this can more easily occur:
+  - Forms: solve by sanitizing any user-inputted data. Recaptcha can help here for bots.
+  - Query parameters: solve by sanitizing any incoming data.
+  - Using `innerHTML`: solve by never using this.
+  - HTTP responses: We can modify the response headers to prevent XSS in any responses that shouldn't contain HTML/JS.
+  - Whitelist trusted content via a Content Security Policy (CSP)
+  - Code dependencies: See below.
+- Cross-site request forgery (CSRF) is when a user is tricked to submit a malicious request by a third party. Prevention:
+  - Generate a CSRF token for each user and expect that token for any requests. This prevents other sites from pretending to be like our site as they wouldn't have this token
+  - Not having URLs for specific actions in URLs. This prevents seemingly innocent looking links in emails that cause an action to be taken that the user didn't want to cause.
+- Security vulnerabilities in code dependencies. Solve by updating dependencies regularly to ensure your application receives the latest security fixes. If it isn't fixed then you can open an issue with the developers who made the dependency. Worst case you can replace/remove the dependency.
+- Code dependencies could have malicious code. Solve by auditing code dependencies.
+- DDOS attacks can occur when someone has many users hit your site at the same time in an attempt to overwhelm your server, causing the site to be unavailable. Static can help with the client here, but there are always limits. Recaptcha can help with any forms or other interactions. We can use some services like Cloudflare if this occurs regularly.
+
 ## 6. How would you improve the Kraken API that you just used?
