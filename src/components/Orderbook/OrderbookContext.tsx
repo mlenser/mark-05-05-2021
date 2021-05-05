@@ -65,7 +65,7 @@ export const OrderbookContextProvider: React.FC = ({ children }) => {
     setBidsValuesForDisplay(bidsForDisplay);
     const bidsSum = sumSize({ values: bidsForDisplay });
     setLargestSum(Math.max(asksSum, bidsSum));
-  }, [asksValues, bidsValues]);
+  }, [aboveMobile, asksValues, bidsValues, groupInterval]);
 
   return (
     <OrderbookContext.Provider value={state}>
