@@ -14,24 +14,6 @@ export const removeValueByPrice = ({
   values: AsksValues | BidsValues;
 }) => values.filter((value) => value[0] !== removePrice);
 
-const removeValue = ({
-  adjustValues,
-  removePrice,
-  values,
-}: {
-  adjustValues: SetAsksValues | SetBidsValues;
-  removePrice: number;
-  values: AsksValues | BidsValues;
-}) => {
-  const newValues = removeValueByPrice({
-    removePrice,
-    values,
-  });
-  if (newValues) {
-    adjustValues(newValues);
-  }
-};
-
 export const replaceValueByPrice = ({
   indexToReplace,
   newValue,
@@ -51,11 +33,9 @@ export const addValue = ({
 }) => [...values, newValue];
 
 const replaceOrAddValue = ({
-  adjustValues,
   value,
   values,
 }: {
-  adjustValues: SetAsksValues | SetBidsValues;
   value: SizePrice;
   values: AsksValues | BidsValues;
 }) => {
@@ -63,23 +43,46 @@ const replaceOrAddValue = ({
   if (existingValue) {
     const indexToReplace = values.indexOf(existingValue);
     if (indexToReplace > -1) {
-      const newValues = replaceValueByPrice({
+      return replaceValueByPrice({
         indexToReplace,
         newValue: value,
         values,
       });
-      if (newValues) {
-        adjustValues(newValues);
-      }
     }
   } else {
-    const newValues = addValue({
+    return addValue({
       newValue: value,
       values,
     });
-    if (newValues) {
-      adjustValues(newValues);
-    }
+  }
+  return values;
+};
+
+const replaceOrRemoveValuesTogether = ({
+  adjustValues,
+  newValues,
+  values,
+}: {
+  adjustValues: SetAsksValues | SetBidsValues;
+  newValues: AsksValues | BidsValues;
+  values: AsksValues | BidsValues;
+}) => {
+  if (newValues?.length > 0) {
+    let tempValues = [...values];
+    newValues.forEach((value) => {
+      if (value[1] === 0) {
+        tempValues = removeValueByPrice({
+          removePrice: value[0],
+          values: tempValues,
+        });
+      } else {
+        tempValues = replaceOrAddValue({
+          value,
+          values: tempValues,
+        });
+      }
+    });
+    adjustValues(tempValues);
   }
 };
 
@@ -98,35 +101,14 @@ export const replaceOrRemoveValues = ({
   setAsksValues: SetAsksValues;
   setBidsValues: SetBidsValues;
 }) => {
-  console.log('data', asks, bids);
-  asks?.forEach((ask) => {
-    if (ask[1] === 0) {
-      removeValue({
-        adjustValues: setAsksValues,
-        removePrice: ask[0],
-        values: asksValues,
-      });
-    } else {
-      replaceOrAddValue({
-        adjustValues: setAsksValues,
-        value: ask,
-        values: asksValues,
-      });
-    }
+  replaceOrRemoveValuesTogether({
+    adjustValues: setAsksValues,
+    newValues: asks,
+    values: asksValues,
   });
-  bids?.forEach((bid) => {
-    if (bid[1] === 0) {
-      removeValue({
-        adjustValues: setBidsValues,
-        removePrice: bid[0],
-        values: bidsValues,
-      });
-    } else {
-      replaceOrAddValue({
-        adjustValues: setBidsValues,
-        value: bid,
-        values: bidsValues,
-      });
-    }
+  replaceOrRemoveValuesTogether({
+    adjustValues: setBidsValues,
+    newValues: bids,
+    values: bidsValues,
   });
 };
