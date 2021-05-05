@@ -3,7 +3,7 @@
 ## 1. What would you add to your solution if you had more time?
 
 1. Investigate if `setState` is not updating the values quick enough. It may be possible that data is not displaying correctly, but it is really difficult to know if that is the case as the sample URL does not get data from the same place. If this is the case you could use `useRef` to store the asks and bids and then adjust that all the way down, setting the value in the context at the end. It would require mutation in `adjustValues.ts` which I think is best to avoid unless that is the only way. I explored that as an option in the `mutate` branch (mainly on `DataWrapper` and `adjustValues`, but don’t think it is a good way forward). More information would be needed before proceeding.
-2. Check components to see if we can prevent rerendering as there is a lot of data changing. This may be the cause of the app crashing locally, but it doesn’t crash in production, so I think it may be an issue with the local Gatsby server.
+2. Check components to see if we can prevent rerendering as there is a lot of data changing. This may be the cause of the app crashing locally, but it doesn’t crash in production, so I think it may be an issue with the local Gatsby server. Perhaps we can split components to be smaller or perhaps we can memoize some that aren’t updated as frequently, but this would take time and the app seems stable on production.
 3. Find out how to solve the issue of styled-components generating hundreds of classes as the width of `barStyle` in `PriceSizeTotal` changes frequently. They recommend using `.attrs`, but there doesn’t seem to be a way to use a media query with that which is needed.
 4. Automatically determine how many rows to show based on screen size. I could calculate the viewport height and divide by the size of a row to determine how many rows to show. Currently, this is hardcoded to 15 which is more mobile-friendly.
 5. Add a skeleton loading state for the graph for the milliseconds before the websocket connects. The delay could be longer on slow devices.
@@ -14,15 +14,15 @@
 
 ## 2. What would you have done differently if you knew this page was going to get thousands of views per second vs per week?
 
-I would spend some time running some performance testing on my code that parses the data from the websockets. It likely wouldn’t be too impactful, but if it runs thousands of times a second then it could have a performance impact.
+I would spend some time running some performance testing on my code that parses the data from the websockets. It runs thousands of times a second, so it could have a performance impact.
 
-Beyond that, the site is static so once it is built the only data transferring is from the file server (CDN hopefully) to the client. That is very minimal. We should put it on a quality CDN like Fastly, Netlify, AWS, or other options like Azure.
+Beyond that, the site is static so once it is built the only data transferring is from the file server (CDN hopefully) to the client. That is very minimal. We should put it on a quality CDN like Fastly, Netlify, AWS, or other options like Azure. Gatsby Cloud uses Fastly, so I think the current setup would be enough to handle a fair number of users (until we ran into billing issues).
 
 With a CDN we can do edge-caching. If we don’t have edge-caching then we can add some cache logic to our server heavily favor cache.
 
 Most of the data is client based via websockets and that hits the backend. So the backend should potentially add some limits when they start having load issues. Perhaps they could limit the update time once they detect memory is at 70% for example.
 
-If we have issues with bots, then we could add other services in front of our server like cloudflare.
+If we have issues with bots, then we could add other services in front of our server like Cloudflare.
 
 ## 3. What was the most useful feature that was added to the latest version of your chosen language? Please include a snippet of code that shows how you’ve used it.
 
@@ -50,13 +50,15 @@ React’s Context API allows a developer to access data across multiple componen
 
 I have debugged performance problems many times - much more before switching to a static site.
 
-How to debug and solve really depends on what the performance problem is. Is it users experiencing a slow initial load or a slow response to interactions or is the server being overwhelmed by the amount of users?
+How to debug and solve a performance problem really depends on what the performance problem is. Is it users experiencing a slow initial load, a slow response to interactions, or is the server being overwhelmed by the amount of users?
 
-If it’s a slow initial load then I would start with a lighthouse audit to get an idea of the performance. With GatsbyJS or NodeJS (using static) most of the problems with this are already solved, but some optimizations like bundle chunking via loadable can be done. There are tools like webpack analyzer that can help here. If it’s a lot of data sent to the user then we can reduce/remove some large dependencies. If we’re using another technology then we can start caching more to achieve a better initial load time (this won’t solve it all, but could be a good step). The network tab of Chrome can help identify if any scripts are slow to respond.
+If it’s a slow initial load then I would start with a lighthouse audit to get an idea of the performance. With GatsbyJS or NodeJS (using static) most of the problems with this are already solved, but some optimizations like bundle chunking via loadable can be done. There are tools like webpack analyzer that can help here. If it’s a lot of data sent to the user then we can reduce/remove some large dependencies. The network tab of Chrome can help identify if any scripts are slow to respond. If we’re using a technology that doesn’t produce a static site then we can start caching more to achieve a better initial load time (this won’t solve it all, but could be a good step).
 
-If it’s a slow response to interactions then I would try to interact with the site using an emulator that slows down my browser. I could then detect which parts of the site are slow and attempt to triage from there. Maybe some script has a memory leak or maybe we can use memoization (essentially caching) to speed up some of our javascript functions.
+If it’s a slow response to interactions then I would try to interact with the site using an emulator that slows down my browser. I could then detect which parts of the site are slow and attempt to triage from there. Maybe some script has a memory leak or maybe we can use memoization (essentially caching a function) to speed up some of our javascript functions.
 
-If it’s the server being overwhelmed then we need to look at our CDN and backend to analyze where the bottleneck is. It can also be helpful to have external vendors complete a performance audit to better identify where issues may be - we’ve done that a few times.
+If it’s the server being overwhelmed then we need to look at our CDN and backend to analyze where the bottleneck is. Or perhaps frontend is sending too much data to the backend. It can also be helpful to have external vendors complete a performance audit to better identify where issues may be - we’ve done that a few times.
+
+There could be many other ways a performance problem presents itself. The best way to tackle them is as a team discussing the whole picture to track down the issue.
 
 ## 5. Can you describe common security concerns to consider for a frontend developer?
 
@@ -69,10 +71,10 @@ If it’s the server being overwhelmed then we need to look at our CDN and backe
   - Code dependencies: See below.
 - Cross-site request forgery (CSRF) is when a user is tricked to submit a malicious request by a third party. Prevention:
   - Generate a CSRF token for each user and expect that token for any requests. This prevents other sites from pretending to be like our site as they wouldn’t have this token
-  - Not having URLs for specific actions in URLs. This prevents seemingly innocent looking links in emails that cause an action to be taken that the user didn’t want to cause.
+  - Not having URLs for specific actions in URLs such as `?change_password&new_password=111`. This prevents seemingly innocent looking links in emails that cause an action to be taken that the user didn’t want to cause.
 - Security vulnerabilities in code dependencies. Solve by updating dependencies regularly to ensure your application receives the latest security fixes. If it isn’t fixed then you can open an issue with the developers who made the dependency. Worst case you can replace/remove the dependency.
 - Code dependencies could have malicious code. Solve by auditing code dependencies.
-- DDOS attacks can occur when someone has many users hit your site at the same time in an attempt to overwhelm your server, causing the site to be unavailable. Static can help with the client here, but there are always limits. Recaptcha can help with any forms or other interactions. We can use some services like Cloudflare if this occurs regularly.
+- DDOS attacks can occur when many users hit your site at the same time in an attempt to overwhelm your server, causing the site to be unavailable. Static can help with the client here, but there are always limits. Recaptcha can help with any forms or other interactions. We can use some services like Cloudflare if this occurs regularly.
 
 ## 6. How would you improve the Kraken API that you just used?
 
@@ -82,3 +84,4 @@ Without extensive knowledge of the API and possible use cases it is hard to say 
   - An array of prices to remove (instead of providing a price and size 0). This could easily be iterated over by finding values by the price listed and removing them. I extract a list and iterate over it in `getNewValues` inside `adjustValues.ts`.
   - An array of values to adjust with a `price` and `size` to update to. This could be iterated over to find the items by `price` and adjust the `size`.
   - An array of values to add. Because I’m unsure if a value is new or changed I have to search through the values to see if they exist and then add the ones that don’t. If this was available, I could simply add these on without searching.
+- It could possibly be smarter to pass the whole chart (top X values) than keep all the data on the frontend. Keeping it on the frontend makes it quite heavy for the end user. Since the data is pretty minimal, I wonder if this might be better. This would require investigation.
