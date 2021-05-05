@@ -1,8 +1,9 @@
 import React from 'react';
 import { sortByPriceLowFirst } from '../../utils/sort/sortByPrice';
+import { groupedValuesWithTotal } from '../../utils/groupedValuesWithTotal';
+import { topValues } from '../../utils/topValues';
 import PriceSizeTotal from './PriceSizeTotal';
 import { useOrderbookContext } from './OrderbookContext';
-import { groupedValuesWithTotal } from '../../utils/groupedValuesWithTotal';
 
 type Props = {
   aboveMobile: boolean;
@@ -20,7 +21,7 @@ const Asks: React.FC<Props> = ({ aboveMobile }) => {
       <PriceSizeTotal
         showColumnHeadersBelow={!aboveMobile}
         type="asks"
-        values={values}
+        values={topValues(values)}
       />
     </div>
   );

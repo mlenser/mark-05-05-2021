@@ -1,8 +1,10 @@
 import React from 'react';
 import { sortByPriceHighFirst } from '../../utils/sort/sortByPrice';
+import { groupedValuesWithTotal } from '../../utils/groupedValuesWithTotal';
+import { lastValues } from '../../utils/lastValues';
+import { topValues } from '../../utils/topValues';
 import PriceSizeTotal from './PriceSizeTotal';
 import { useOrderbookContext } from './OrderbookContext';
-import { groupedValuesWithTotal } from '../../utils/groupedValuesWithTotal';
 
 type Props = {
   aboveMobile: boolean;
@@ -20,7 +22,7 @@ const Bids: React.FC<Props> = ({ aboveMobile }) => {
       <PriceSizeTotal
         order={aboveMobile ? ['total', 'size', 'price'] : undefined}
         type="bids"
-        values={aboveMobile ? values : values.reverse()}
+        values={aboveMobile ? topValues(values) : lastValues(values.reverse())}
       />
     </div>
   );

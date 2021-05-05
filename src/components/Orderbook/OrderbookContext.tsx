@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { SizePrice } from '../../types/SizePrice';
 import { sumSize } from '../../utils/sumSize';
+import { topValues } from '../../utils/topValues';
 
 export type OrderbookContextProviderType = {
   asksValues: SizePrice[];
@@ -33,8 +34,8 @@ export const OrderbookContextProvider: React.FC = ({ children }) => {
   };
 
   useEffect(() => {
-    const asksSum = sumSize({ values: asksValues });
-    const bidsSum = sumSize({ values: bidsValues });
+    const asksSum = sumSize({ values: topValues(asksValues) });
+    const bidsSum = sumSize({ values: topValues(bidsValues) });
     setLargestSum(Math.max(asksSum, bidsSum));
   }, [asksValues, bidsValues]);
 
