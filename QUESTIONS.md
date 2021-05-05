@@ -2,13 +2,14 @@
 
 ## 1. What would you add to your solution if you had more time?
 
-1. Automatically determine how many rows to show based on screen size. I could calculate the viewport height and divide by the size of a row to determine how many rows to show. Currently this is hardcoded to 15 which is more mobile-friendly.
-2. Add a skeleton loading state for the graph for the milliseconds before the websocket connects. The delay could be longer on slow devices.
-3. Use a proper set of components from a design system, or create one.
-4. Check components to see if we can prevent rerendering as there is a lot of data changing and maybe some of the data can be ignored.
-5. Possibly replace Material UI with the design system used in an organization.
-6. Add local storage for the `groupInterval` so it is saved for the user each time they visit.
-7. Fix tooltips so they work on mobile (Material UI issue).
+1. Check components to see if we can prevent rerendering as there is a lot of data changing and that is leading to the app crashing out locally, but it doesn't in production so I think it may be an issue with the local Gatsby server.
+2. Find out how to solve the issue of styled-components generating hundreds of classes as the width of `barStyle` in `PriceSizeTotal` changes frequently. They recommend using `.attrs`, but there doesn't seem to be a way to use a media query with that which is needed.
+3. Automatically determine how many rows to show based on screen size. I could calculate the viewport height and divide by the size of a row to determine how many rows to show. Currently this is hardcoded to 15 which is more mobile-friendly.
+4. Add a skeleton loading state for the graph for the milliseconds before the websocket connects. The delay could be longer on slow devices.
+5. Use a proper set of components from a design system, or create one.
+6. Possibly replace Material UI with the design system used in an organization.
+7. Add local storage for the `groupInterval` so it is saved for the user each time they visit.
+8. Fix tooltips so they work on mobile (Material UI issue).
 
 ## 2. What would you have done differently if you knew this page was going to get thousands of views per second vs per week?
 
