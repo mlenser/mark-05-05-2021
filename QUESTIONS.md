@@ -21,6 +21,26 @@ If we have issues with bots we could add other services in front like cloudflare
 
 ## 3. What was the most useful feature that was added to the latest version of your chosen language? Please include a snippet of code that shows how you've used it.
 
+### GatsbyJS image rendering
+
+GatsbyJS's image rendering is a huge leap forward in image performance. On build time it takes a normal image and generates a `webp` and `avif` version of each image (with a fallback to `png` or `jpg` for browsers that don't support `webp` and `avif`). It also generates multiple versions of each file type. The file type results in a smaller image for the user as a JPG (lossy) image can be reduced from ~75 kB to ~43 kB with WebP and ~18 kB with AVIF (with results varying for each image). A smaller file size coupled with appropriate width/height dimensions for each breakpoint results in limited over-serving of image data to the user.
+
+I think this feature is incredibly impactful as images consume a lot of data which results in poor performance and more energy costs (I read a blog a while back that estimated energy costs and C02 emissions from images on websites). Images are generally the first issue to tackle for user performance of a site - especially for mobile users or users with a slow connection.
+
+https://www.gatsbyjs.com/plugins/gatsby-plugin-image discusses how to use this with GatsbyJS.
+
+Super basic usage:
+
+```
+import { StaticImage } from "gatsby-plugin-image"
+
+const Kitten = () => <StaticImage src="https://placekitten.com/800/600" alt="A kitten" />;
+```
+
+### React context
+
+React's Context API allows a developer to access data across multiple components. It's a bit older now, but I think it has a huge impact on how we develop. The need for Redux is significantly reduced as local contexts can be used for most common cases of handling application state across multiple components.
+
 ## 4. How would you track down a performance issue in production? Have you ever had to do this?
 
 I have debugged performance problems many times - much more before switching to a static site.
