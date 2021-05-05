@@ -1,5 +1,6 @@
 import { SizePrice } from '../../../types/SizePrice';
 import { OrderbookContextProviderType } from '../OrderbookContext';
+import { ValuesStore } from '../../../types/ValuesStore';
 
 type AsksValues = OrderbookContextProviderType['asksValues'];
 type BidsValues = OrderbookContextProviderType['bidsValues'];
@@ -19,41 +20,43 @@ export const replaceValueByPrice = ({
 }: {
   indexToReplace: number;
   newValue: SizePrice;
-  values: AsksValues | BidsValues;
-}) => Object.assign([], values, { [indexToReplace]: newValue });
+  values: ValuesStore;
+}) => Object.assign(values.current, { [indexToReplace]: newValue });
 
 export const addValue = ({
   newValue,
   values,
 }: {
   newValue: SizePrice;
-  values: AsksValues | BidsValues;
-}) => [...values, newValue];
+  values: ValuesStore;
+}) => {
+  console.log('newValue', newValue);
+  values.current.push(newValue);
+};
 
 const replaceOrAddValue = ({
   value,
   values,
 }: {
   value: SizePrice;
-  values: AsksValues | BidsValues;
+  values: ValuesStore;
 }) => {
-  const existingValue = values.find((val) => val[0] === value[0]);
+  const existingValue = values.current.find((val) => val[0] === value[0]);
   if (existingValue) {
-    const indexToReplace = values.indexOf(existingValue);
+    const indexToReplace = values.current.indexOf(existingValue);
     if (indexToReplace > -1) {
-      return replaceValueByPrice({
+      replaceValueByPrice({
         indexToReplace,
         newValue: value,
         values,
       });
     }
   } else {
-    return addValue({
+    addValue({
       newValue: value,
       values,
     });
   }
-  return values;
 };
 
 export const getNewValues = ({
@@ -61,12 +64,11 @@ export const getNewValues = ({
   values,
 }: {
   newValues: AsksValues | BidsValues;
-  values: AsksValues | BidsValues;
+  values: ValuesStore;
 }) => {
-  let tempValues = [...values];
   const valuesToRemove = getValuesToRemove({ newValues });
   if (valuesToRemove?.length > 0) {
-    tempValues = tempValues.filter(
+    values.current = values.current.filter(
       (value) => !valuesToRemove.includes(value[0]),
     );
   }
@@ -74,12 +76,11 @@ export const getNewValues = ({
   newValues
     .filter((value) => value[1] !== 0)
     .forEach((value) => {
-      tempValues = replaceOrAddValue({
+      replaceOrAddValue({
         value,
-        values: tempValues,
+        values,
       });
     });
-  return tempValues;
 };
 
 export const adjustValues = ({
@@ -91,24 +92,24 @@ export const adjustValues = ({
   setBidsValues,
 }: {
   asks: SizePrice[];
-  asksValues: AsksValues;
+  asksValues: ValuesStore;
   bids: SizePrice[];
-  bidsValues: BidsValues;
+  bidsValues: ValuesStore;
   setAsksValues: SetAsksValues;
   setBidsValues: SetBidsValues;
 }) => {
   if (asks?.length > 0) {
-    const newAsksValue = getNewValues({
+    getNewValues({
       newValues: asks,
       values: asksValues,
     });
-    setAsksValues(newAsksValue);
+    setAsksValues(asksValues.current);
   }
   if (bids?.length > 0) {
-    const newBidsValue = getNewValues({
+    getNewValues({
       newValues: bids,
       values: bidsValues,
     });
-    setBidsValues(newBidsValue);
+    setBidsValues(bidsValues.current);
   }
 };
