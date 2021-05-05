@@ -3,6 +3,7 @@ import useWebSocket from 'react-use-websocket';
 import { connectionStatus } from '../../constants/websocket-states';
 import { useOrderbookContext } from './OrderbookContext';
 import { SizePrice } from '../../types/SizePrice';
+import { setData } from './setData';
 
 const socketUrl = 'wss://www.cryptofacilities.com/ws/v1';
 
@@ -17,21 +18,6 @@ const Orderbook: React.FC = () => {
     },
   );
   const { setAsksValues, setBidsValues } = useOrderbookContext();
-
-  const setData = ({
-    asks,
-    bids,
-  }: {
-    asks: SizePrice[];
-    bids: SizePrice[];
-  }) => {
-    if (asks) {
-      setAsksValues(asks);
-    }
-    if (bids) {
-      setBidsValues(bids);
-    }
-  };
 
   const replaceOrRemoveData = ({
     asks,
@@ -54,7 +40,7 @@ const Orderbook: React.FC = () => {
   useEffect(() => {
     const { asks, bids, feed } = lastJsonMessage || {};
     if (feed === 'book_ui_1_snapshot') {
-      setData({ asks, bids });
+      setData({ asks, bids, setAsksValues, setBidsValues });
     }
     if (feed === 'book_ui_1') {
       replaceOrRemoveData({ asks, bids });
