@@ -1,11 +1,24 @@
 import {
   addValue,
   getNewValues,
+  getValuesToRemove,
   removeValueByPrice,
   replaceValueByPrice,
 } from './adjustValues';
 
 describe('replaceOrRemoveValues', () => {
+  describe('getValuesToRemove', () => {
+    it('should return a list of prices to remove', () => {
+      const values = [
+        [56456.5, 0],
+        [56458, 11295],
+        [56458.5, 70232],
+        [56461, 0],
+      ];
+      const result = getValuesToRemove({ newValues: values });
+      expect(result).toEqual([56456.5, 56461]);
+    });
+  });
   describe('removeValueByPrice', () => {
     it('should return new data with size 0 items removed', () => {
       const values = [

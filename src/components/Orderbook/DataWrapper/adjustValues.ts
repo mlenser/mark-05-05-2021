@@ -6,6 +6,12 @@ type BidsValues = OrderbookContextProviderType['bidsValues'];
 type SetAsksValues = OrderbookContextProviderType['setAsksValues'];
 type SetBidsValues = OrderbookContextProviderType['setBidsValues'];
 
+export const getValuesToRemove = ({
+  newValues,
+}: {
+  newValues: AsksValues | BidsValues;
+}) => newValues.filter((value) => value[1] === 0).map((value) => value[0]);
+
 export const removeValueByPrice = ({
   removePrice,
   values,
@@ -66,19 +72,21 @@ export const getNewValues = ({
   values: AsksValues | BidsValues;
 }) => {
   let tempValues = [...values];
-  newValues.forEach((value) => {
-    if (value[1] === 0) {
-      tempValues = removeValueByPrice({
-        removePrice: value[0],
-        values: tempValues,
-      });
-    } else {
+  const valuesToRemove = getValuesToRemove({ newValues });
+  if (valuesToRemove?.length > 0) {
+    tempValues = tempValues.filter(
+      (value) => !valuesToRemove.includes(value[0]),
+    );
+  }
+
+  newValues
+    .filter((value) => value[1] !== 0)
+    .forEach((value) => {
       tempValues = replaceOrAddValue({
         value,
         values: tempValues,
       });
-    }
-  });
+    });
   return tempValues;
 };
 
