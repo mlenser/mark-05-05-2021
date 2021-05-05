@@ -12,17 +12,20 @@ type Props = {
 
 const Bids: React.FC<Props> = ({ aboveMobile }) => {
   const { bidsValues, groupInterval } = useOrderbookContext();
-  const values = groupedValuesWithTotal({
+  const valuesGroupedWithTotal = groupedValuesWithTotal({
     groupInterval,
     values: bidsValues.sort(sortByPriceHighFirst),
   });
+  const values = aboveMobile
+    ? topValues(valuesGroupedWithTotal)
+    : lastValues(valuesGroupedWithTotal.reverse());
 
   return (
     <div>
       <PriceSizeTotal
         order={aboveMobile ? ['total', 'size', 'price'] : undefined}
         type="bids"
-        values={aboveMobile ? topValues(values) : lastValues(values.reverse())}
+        values={values}
       />
     </div>
   );

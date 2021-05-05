@@ -11,17 +11,18 @@ type Props = {
 
 const Asks: React.FC<Props> = ({ aboveMobile }) => {
   const { asksValues, groupInterval } = useOrderbookContext();
-  const values = groupedValuesWithTotal({
+  const valuesGroupedWithTotal = groupedValuesWithTotal({
     groupInterval,
     values: asksValues.sort(sortByPriceLowFirst),
   });
+  const values = topValues(valuesGroupedWithTotal);
 
   return (
     <div>
       <PriceSizeTotal
         showColumnHeadersBelow={!aboveMobile}
         type="asks"
-        values={topValues(values)}
+        values={values}
       />
     </div>
   );
