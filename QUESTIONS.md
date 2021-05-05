@@ -78,6 +78,6 @@ If it's the server being overwhelmed then we need to look at our CDN and backend
 Without extensive knowledge of the API and possible use cases it is hard to say definitively what could be improved. From my short time working with it, from a frontend developer perspective the following would be easier ways for me to handle the data:
 
 - Instead of passing the raw updated values the following would be better:
-  - An array of prices to remove (instead of providing a price and size 0). This could easily be iterated over by finding values by the price listed and removing them.
+  - An array of prices to remove (instead of providing a price and size 0). This could easily be iterated over by finding values by the price listed and removing them. I extract a list and iterate over it in `getNewValues` inside `adjustValues.ts`.
   - An array of values to adjust with a `price` and `size` to update to. This could be iterated over to find the items by `price` and adjust the `size`.
-  - An array of values to add. I could simply add these on without searching.
+  - An array of values to add. Because I'm unsure if a value is new or changed I have to search through the values to see if they exist and then add the ones that don't. If this was available, I could simply add these on without searching.
