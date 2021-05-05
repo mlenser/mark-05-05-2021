@@ -1,5 +1,9 @@
 import { SizePrice } from '../../../types/SizePrice';
 import { OrderbookContextProviderType } from '../OrderbookContext';
+import {
+  sortByPriceHighFirst,
+  sortByPriceLowFirst,
+} from '../../../utils/sort/sortByPrice';
 
 type AsksValues = OrderbookContextProviderType['asksValues'];
 type BidsValues = OrderbookContextProviderType['bidsValues'];
@@ -102,13 +106,13 @@ export const adjustValues = ({
       newValues: asks,
       values: asksValues,
     });
-    setAsksValues(newAsksValue);
+    setAsksValues(newAsksValue.sort(sortByPriceLowFirst));
   }
   if (bids?.length > 0) {
     const newBidsValue = getNewValues({
       newValues: bids,
       values: bidsValues,
     });
-    setBidsValues(newBidsValue);
+    setBidsValues(newBidsValue.sort(sortByPriceHighFirst));
   }
 };

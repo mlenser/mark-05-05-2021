@@ -1,5 +1,9 @@
 import { SizePrice } from '../../../types/SizePrice';
 import { OrderbookContextProviderType } from '../OrderbookContext';
+import {
+  sortByPriceHighFirst,
+  sortByPriceLowFirst,
+} from '../../../utils/sort/sortByPrice';
 
 export const setData = ({
   asks,
@@ -13,9 +17,9 @@ export const setData = ({
   setBidsValues: OrderbookContextProviderType['setBidsValues'];
 }) => {
   if (asks) {
-    setAsksValues(asks);
+    setAsksValues(asks.sort(sortByPriceLowFirst));
   }
   if (bids) {
-    setBidsValues(bids);
+    setBidsValues(bids.sort(sortByPriceHighFirst));
   }
 };

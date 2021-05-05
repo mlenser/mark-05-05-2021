@@ -1,5 +1,4 @@
 import React from 'react';
-import { sortByPriceLowFirst } from '../../utils/sort/sortByPrice';
 import { groupedValuesWithTotal } from '../../utils/groupedValuesWithTotal';
 import { topValues } from '../../utils/topValues';
 import PriceSizeTotal from './PriceSizeTotal';
@@ -13,7 +12,7 @@ const Asks: React.FC<Props> = ({ aboveMobile }) => {
   const { asksValues, groupInterval } = useOrderbookContext();
   const valuesGroupedWithTotal = groupedValuesWithTotal({
     groupInterval,
-    values: asksValues.sort(sortByPriceLowFirst),
+    values: asksValues,
   });
   const values = topValues(valuesGroupedWithTotal);
 
