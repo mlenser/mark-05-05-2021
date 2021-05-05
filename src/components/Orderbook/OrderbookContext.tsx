@@ -17,11 +17,9 @@ const OrderbookContext = createContext({} as OrderbookContextProviderType);
 
 export const OrderbookContextProvider: React.FC = ({ children }) => {
   const [groupInterval, setGroupInterval] = useState(0.5);
-  const [asksSum, setAsksSum] = useState(0);
   const [asksValues, setAsksValues] = useState<SizePrice[]>([]);
-  const [bidsSum, setBidsSum] = useState(0);
   const [bidsValues, setBidsValues] = useState<SizePrice[]>([]);
-  const [largestSum, setLargestSum] = useState(Math.max(asksSum, bidsSum));
+  const [largestSum, setLargestSum] = useState(0);
 
   const state: OrderbookContextProviderType = {
     asksValues,
@@ -35,11 +33,9 @@ export const OrderbookContextProvider: React.FC = ({ children }) => {
   };
 
   useEffect(() => {
-    const asksSumLocal = sumSize({ values: asksValues });
-    setAsksSum(asksSumLocal);
-    const bidsSumLocal = sumSize({ values: bidsValues });
-    setBidsSum(bidsSumLocal);
-    setLargestSum(Math.max(asksSumLocal, bidsSumLocal));
+    const asksSum = sumSize({ values: asksValues });
+    const bidsSum = sumSize({ values: bidsValues });
+    setLargestSum(Math.max(asksSum, bidsSum));
   }, [asksValues, bidsValues]);
 
   return (
