@@ -1,38 +1,13 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Bids from './Bids';
-import Asks from './Asks';
-import GroupAdjuster from './GroupAdjuster';
 import { OrderbookContextProvider } from './OrderbookContext';
 import DataWrapper from './DataWrapper/DataWrapper';
-
-const desktopStyle = css`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-`;
-const mobileStyle = css`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Wrapper = styled.div<{ aboveMobile?: boolean }>`
-  ${({ aboveMobile }) => (aboveMobile ? desktopStyle : mobileStyle)};
-`;
+import OrderbookUI from './OrderbookUI';
 
 const Orderbook: React.FC = () => {
-  const aboveMobile = useMediaQuery('(min-width: 768px)');
-
   return (
     <OrderbookContextProvider>
       <DataWrapper />
-      <div>
-        <GroupAdjuster />
-        <Wrapper aboveMobile={aboveMobile}>
-          <Bids aboveMobile={aboveMobile} />
-          <Asks aboveMobile={aboveMobile} />
-        </Wrapper>
-      </div>
+      <OrderbookUI />
     </OrderbookContextProvider>
   );
 };
