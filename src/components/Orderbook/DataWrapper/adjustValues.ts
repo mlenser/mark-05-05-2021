@@ -58,12 +58,10 @@ const replaceOrAddValue = ({
   return values;
 };
 
-const replaceOrRemoveValuesTogether = ({
-  adjustValues,
+export const getNewValues = ({
   newValues,
   values,
 }: {
-  adjustValues: SetAsksValues | SetBidsValues;
   newValues: AsksValues | BidsValues;
   values: AsksValues | BidsValues;
 }) => {
@@ -82,7 +80,7 @@ const replaceOrRemoveValuesTogether = ({
         });
       }
     });
-    adjustValues(tempValues);
+    return tempValues;
   }
 };
 
@@ -101,14 +99,18 @@ export const adjustValues = ({
   setAsksValues: SetAsksValues;
   setBidsValues: SetBidsValues;
 }) => {
-  replaceOrRemoveValuesTogether({
-    adjustValues: setAsksValues,
+  const newAsksValue = getNewValues({
     newValues: asks,
     values: asksValues,
   });
-  replaceOrRemoveValuesTogether({
-    adjustValues: setBidsValues,
+  if (newAsksValue) {
+    setAsksValues(newAsksValue);
+  }
+  const newBidsValue = getNewValues({
     newValues: bids,
     values: bidsValues,
   });
+  if (newBidsValue) {
+    setBidsValues(newBidsValue);
+  }
 };
