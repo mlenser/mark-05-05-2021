@@ -12,14 +12,6 @@ export const getValuesToRemove = ({
   newValues: AsksValues | BidsValues;
 }) => newValues.filter((value) => value[1] === 0).map((value) => value[0]);
 
-export const removeValueByPrice = ({
-  removePrice,
-  values,
-}: {
-  removePrice: number;
-  values: AsksValues | BidsValues;
-}) => values.filter((value) => value[0] !== removePrice);
-
 export const replaceValueByPrice = ({
   indexToReplace,
   newValue,
