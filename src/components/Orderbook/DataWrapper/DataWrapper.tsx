@@ -40,8 +40,8 @@ const Orderbook: React.FC = () => {
     if (feed === 'book_ui_1') {
       adjustValues({
         asks,
-        bids,
         asksValues,
+        bids,
         bidsValues,
         setAsksValues,
         setBidsValues,
