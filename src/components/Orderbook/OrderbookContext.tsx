@@ -51,5 +51,3 @@ export const OrderbookContextProvider: React.FC = ({ children }) => {
 
 export const useOrderbookContext = (): OrderbookContextProviderType =>
   useContext(OrderbookContext);
-
-export default OrderbookContext;
