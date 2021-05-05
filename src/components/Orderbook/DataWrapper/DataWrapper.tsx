@@ -1,22 +1,18 @@
 import React, { useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
-import { connectionStatus } from '../../../constants/websocket-states';
 import { useOrderbookContext } from '../OrderbookContext';
 import { setData } from './setData';
 import { adjustValues } from './adjustValues';
 
 const socketUrl = 'wss://www.cryptofacilities.com/ws/v1';
 
-const Orderbook: React.FC = () => {
-  const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
-    socketUrl,
-    {
-      reconnectAttempts: 10,
-      reconnectInterval: 3000,
-      // will attempt to reconnect on all close events, such as server shutting down
-      shouldReconnect: () => true,
-    },
-  );
+const DataWrapper: React.FC = () => {
+  const { sendJsonMessage, lastJsonMessage } = useWebSocket(socketUrl, {
+    reconnectAttempts: 10,
+    reconnectInterval: 3000,
+    // will attempt to reconnect on all close events, such as server shutting down
+    shouldReconnect: () => true,
+  });
   const {
     asksValues,
     bidsValues,
@@ -49,7 +45,7 @@ const Orderbook: React.FC = () => {
     }
   }, [lastJsonMessage]);
 
-  return <div>Websocket status: {connectionStatus[readyState]}</div>;
+  return null;
 };
 
-export default Orderbook;
+export default DataWrapper;
